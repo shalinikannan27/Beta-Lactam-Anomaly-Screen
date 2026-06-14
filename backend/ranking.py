@@ -1,109 +1,140 @@
-"""
-ranking.py — AMR Ranking Engine
-================================
-Loads per-antibiotic ML models and ranks antibiotics by predicted
-susceptibility for a given set of genomic resistance features.
-"""
-
+import pandas as pd
+import joblib
 import os
-import pickle
-from pathlib import Path
-from typing import Dict, List
 
-from schemas import PredictionRequest, PredictionResponse, AntibioticResult
+FEATURE_COLS = [
+    'gene_mef(a)', 'gene_msr(d)', 'gene_erm(b)', 'gene_tet(m)',
+    'gene_pbp2b', 'gene_pbp2x', 'gene_pbp1a',
+    'species_agalactiae', 'species_pneumoniae', 'species_pyogenes',
+    'iso_type_clinical', 'iso_type_unknown',
+    'country_Brazil', 'country_Canada', 'country_USA',
+    'country_other', 'country_unknown',
+    'collection_year'
+]
 
-# ── Configuration ─────────────────────────────────────────────────────
-MODELS_DIR = Path(__file__).resolve().parent.parent / "models"
+ANTIBIOTICS = ['amoxicillin', 'ceftriaxone', 'clindamycin', 'erythromycin',
+               'meropenem', 'penicillin', 'tetracycline', 'tmp_smx']
 
-ANTIBIOTIC_NAMES: Dict[str, str] = {
-    "amoxicillin": "Amoxicillin",
-    "ceftriaxone": "Ceftriaxone",
-    "clindamycin": "Clindamycin",
-    "erythromycin": "Erythromycin",
-    "meropenem": "Meropenem",
-    "penicillin": "Penicillin",
-    "tetracycline": "Tetracycline",
-    "tmp_smx": "Trimethoprim-Sulfamethoxazole",
+MODELS_DIR = os.path.join(os.path.dirname(__file__), 'models')
+
+MODELS = {}
+for ab in ANTIBIOTICS:
+    MODELS[ab] = joblib.load(os.path.join(MODELS_DIR, f'model_{ab}.pkl'))
+
+ALLERGY_GROUPS = {
+    'penicillin'    : ['penicillin', 'amoxicillin'],
+    'macrolide'     : ['erythromycin'],
+    'clindamycin'   : ['clindamycin'],
+    'cephalosporin' : ['ceftriaxone'],
+    'carbapenem'    : ['meropenem'],
+    'sulfa'         : ['tmp_smx'],
 }
 
+SITE_PREFERENCE = {
+    'throat': {
+        'preferred'    : ['penicillin', 'amoxicillin'],
+        'non_preferred': ['meropenem', 'ceftriaxone'],
+    },
+    'blood': {
+        'preferred'    : ['clindamycin', 'penicillin', 'meropenem'],
+        'non_preferred': ['tmp_smx', 'tetracycline'],
+    },
+    'skin': {
+        'preferred'    : ['clindamycin', 'penicillin', 'amoxicillin'],
+        'non_preferred': ['tmp_smx', 'tetracycline'],
+    },
+    'neonatal': {
+        'preferred'    : ['penicillin', 'amoxicillin', 'clindamycin'],
+        'non_preferred': ['tetracycline', 'tmp_smx'],
+    },
+    'other': {
+        'preferred'    : [],
+        'non_preferred': [],
+    }
+}
 
-class AMRRanker:
-    """Loads pickled models and provides a `.rank()` method."""
+PREGNANCY_EXCLUSIONS = ['tetracycline', 'tmp_smx']
+PEDIATRIC_EXCLUSIONS = ['tetracycline']
 
-    def __init__(self, models_dir: Path = MODELS_DIR):
-        self.models: Dict[str, object] = {}
-        self.loaded_models: List[str] = []
-        self._load_models(models_dir)
 
-    # ── Model loading ─────────────────────────────────────────────────
-    def _load_models(self, models_dir: Path) -> None:
-        """Discover and load all model_*.pkl files."""
-        if not models_dir.exists():
-            print(f"⚠  Models directory not found: {models_dir}")
-            return
+def rank_antibiotics(gene_input, species, iso_type, country, year,
+                     allergies, infection_site, pregnant=False, age_group='adult'):
 
-        for pkl_file in sorted(models_dir.glob("model_*.pkl")):
-            drug_key = pkl_file.stem.replace("model_", "")
-            try:
-                with open(pkl_file, "rb") as fh:
-                    self.models[drug_key] = pickle.load(fh)
-                self.loaded_models.append(drug_key)
-                print(f"✓  Loaded model: {drug_key}")
-            except Exception as exc:
-                print(f"✗  Failed to load {pkl_file.name}: {exc}")
+    row = {}
+    for gene in ['gene_mef(a)', 'gene_msr(d)', 'gene_erm(b)', 'gene_tet(m)',
+                 'gene_pbp2b', 'gene_pbp2x', 'gene_pbp1a']:
+        row[gene] = gene_input.get(gene, 0)
 
-        print(f"   Total models loaded: {len(self.models)}/{len(ANTIBIOTIC_NAMES)}")
+    row['species_agalactiae'] = 1 if species == 'agalactiae' else 0
+    row['species_pneumoniae'] = 1 if species == 'pneumoniae' else 0
+    row['species_pyogenes']   = 1 if species == 'pyogenes'   else 0
 
-    # ── Prediction & ranking ──────────────────────────────────────────
-    def rank(self, request: PredictionRequest) -> PredictionResponse:
-        """
-        Run each loaded model against the input features and return
-        antibiotics ranked from most to least effective.
-        """
-        if not self.models:
-            raise ValueError("No models are loaded. Check the models/ directory.")
+    row['iso_type_clinical'] = 1 if iso_type == 'clinical' else 0
+    row['iso_type_unknown']  = 1 if iso_type == 'unknown'  else 0
 
-        features = request.to_feature_vector()
-        results: List[AntibioticResult] = []
+    for c in ['Brazil', 'Canada', 'USA', 'other', 'unknown']:
+        row[f'country_{c}'] = 1 if country == c else 0
 
-        for drug_key, model in self.models.items():
-            try:
-                # Most sklearn models expose predict_proba
-                if hasattr(model, "predict_proba"):
-                    proba = model.predict_proba([features])[0]
-                    # Susceptible class probability (index 0 = susceptible)
-                    susceptibility_score = float(proba[0])
-                    resistant = bool(proba[0] < 0.5)
-                else:
-                    pred = model.predict([features])[0]
-                    susceptibility_score = 1.0 - float(pred)
-                    resistant = bool(pred >= 0.5)
+    row['collection_year'] = int((year - 2000) / (2025 - 2000) * 25)
 
-                results.append(
-                    AntibioticResult(
-                        antibiotic=ANTIBIOTIC_NAMES.get(drug_key, drug_key),
-                        drug_key=drug_key,
-                        susceptibility_score=round(susceptibility_score, 4),
-                        resistant=resistant,
-                    )
-                )
-            except Exception as exc:
-                print(f"⚠  Prediction failed for {drug_key}: {exc}")
-                results.append(
-                    AntibioticResult(
-                        antibiotic=ANTIBIOTIC_NAMES.get(drug_key, drug_key),
-                        drug_key=drug_key,
-                        susceptibility_score=0.0,
-                        resistant=True,
-                        error=str(exc),
-                    )
-                )
+    X_new = pd.DataFrame([row])[FEATURE_COLS].values.astype(float)
 
-        # Sort by susceptibility score descending (most effective first)
-        results.sort(key=lambda r: r.susceptibility_score, reverse=True)
+    results = []
+    for ab, model in MODELS.items():
+        p_resistant = float(model.predict_proba(X_new)[0][1])
+        effectiveness = round(1 - p_resistant, 4)
+        results.append({'antibiotic': ab,
+                        'p_resistant': round(p_resistant, 4),
+                        'effectiveness': effectiveness})
 
-        return PredictionResponse(
-            species=request.species,
-            ranked_antibiotics=results,
-            total_evaluated=len(results),
-        )
+    df_rank = pd.DataFrame(results)
+
+    excluded = set()
+    for allergy in allergies:
+        excluded.update(ALLERGY_GROUPS.get(allergy, []))
+
+    if pregnant:
+        excluded.update(PREGNANCY_EXCLUSIONS)
+
+    if age_group == 'pediatric':
+        excluded.update(PEDIATRIC_EXCLUSIONS)
+
+    site_prefs = SITE_PREFERENCE.get(infection_site, SITE_PREFERENCE['other'])
+
+    def compute_final_score(row):
+        ab = row['antibiotic']
+        if ab in excluded:
+            return 0.0
+        score = row['effectiveness']
+        if ab in site_prefs['preferred']:
+            score *= 1.15
+        elif ab in site_prefs['non_preferred']:
+            score *= 0.85
+        if age_group == 'neonatal' and ab in ['penicillin', 'amoxicillin']:
+            score *= 1.1
+        return round(min(score, 1.0), 4)
+
+    df_rank['final_score'] = df_rank.apply(compute_final_score, axis=1)
+    df_rank = df_rank.sort_values('final_score', ascending=False).reset_index(drop=True)
+    df_rank['rank'] = df_rank.index + 1
+
+    def get_label(row):
+        ab = row['antibiotic']
+        if ab in excluded:
+            if ab in PREGNANCY_EXCLUSIONS and pregnant:
+                return 'Contraindicated (Pregnancy)'
+            if ab in PEDIATRIC_EXCLUSIONS and age_group == 'pediatric':
+                return 'Contraindicated (Pediatric)'
+            return 'Contraindicated (Allergy)'
+        if row['final_score'] >= 0.70:
+            return 'Recommended'
+        if row['final_score'] >= 0.40:
+            return 'Use with Caution'
+        return 'Not Recommended'
+
+    df_rank['recommendation'] = df_rank.apply(get_label, axis=1)
+    df_rank['resistance_pct']    = (df_rank['p_resistant']  * 100).round(1)
+    df_rank['effectiveness_pct'] = (df_rank['effectiveness'] * 100).round(1)
+
+    return df_rank[['rank', 'antibiotic', 'resistance_pct',
+                    'effectiveness_pct', 'final_score', 'recommendation']].to_dict('records')
