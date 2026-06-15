@@ -42,6 +42,14 @@ class PredictRequest(BaseModel):
     age_group: str = Field("adult", description="Age group (adult, pediatric, neonatal)")
 
 
+class ReportRequest(PredictRequest):
+    patient_id: str = "Anonymous"
+    patient_age: Optional[int] = None
+    sex: Optional[str] = None
+    weight_kg: Optional[float] = None
+    comorbidities: List[str] = []
+
+
 # ── Response schemas ──────────────────────────────────────────────────
 class AntibioticRankResult(BaseModel):
     """Single antibiotic ranking result."""
