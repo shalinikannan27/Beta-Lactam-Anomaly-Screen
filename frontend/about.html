@@ -1,0 +1,281 @@
+<!DOCTYPE html><html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>About | AMR Atlas</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100..900&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid #E2E8F0;
+        }
+        .tonal-layer {
+            background-color: #F7F9FB;
+        }
+        /* Custom scrollbar for high-density data */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0f4c5c;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#191c1d",
+                        "on-primary-fixed-variant": "#114d5d",
+                        "surface": "#f9f9fa",
+                        "on-tertiary-container": "#dda975",
+                        "primary-fixed": "#b6ebfe",
+                        "surface-container-high": "#e7e8e9",
+                        "on-tertiary-fixed-variant": "#643e14",
+                        "inverse-primary": "#9acee1",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#623d13",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-primary-container": "#87bbce",
+                        "on-primary-fixed": "#001f28",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#e1e2e4",
+                        "surface-container": "#edeeef",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f9f9fa",
+                        "inverse-surface": "#2e3132",
+                        "surface-bright": "#f9f9fa",
+                        "surface-dim": "#d9dadb",
+                        "primary-container": "#0f4c5c",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#40484b",
+                        "tertiary": "#482700",
+                        "primary-fixed-dim": "#9acee1",
+                        "surface-variant": "#e1e2e4",
+                        "secondary-container": "#9bf6ba",
+                        "outline-variant": "#c0c8cb",
+                        "tertiary-fixed": "#ffdcbe",
+                        "secondary": "#006d3f",
+                        "error": "#ba1a1a",
+                        "on-surface": "#191c1d",
+                        "secondary-fixed-dim": "#80d9a0",
+                        "on-tertiary-fixed": "#2c1600",
+                        "on-secondary-container": "#0e7344",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#00522e",
+                        "tertiary-fixed-dim": "#f3bc87",
+                        "primary": "#003441",
+                        "outline": "#70787c",
+                        "surface-tint": "#306576",
+                        "on-secondary-fixed": "#00210f",
+                        "secondary-fixed": "#9bf6ba"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "64px",
+                        "xs": "8px",
+                        "container-max": "1440px",
+                        "lg": "40px",
+                        "gutter": "24px",
+                        "base": "4px",
+                        "md": "24px",
+                        "sm": "16px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "headline-md": ["DM Sans"],
+                        "display-lg": ["DM Sans"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["DM Sans"],
+                        "headline-lg": ["DM Sans"],
+                        "code-md": ["JetBrains Mono"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "code-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest shadow-sm">
+<nav class="flex justify-between items-center px-lg w-full max-w-container-max mx-auto h-20">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="dna">dns</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">AMR Atlas</span>
+</div>
+<div class="hidden md:flex items-center gap-md">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/home">Home</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/ranker">Ranker</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/methods">Methods</a>
+<a class="font-body-md text-body-md text-primary font-bold border-b-2 border-primary pb-1" href="/about">About</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="/disclaimer">Disclaimer</a>
+</div>
+<div class="flex items-center">
+<button class="p-2 rounded-full hover:bg-surface-container-high transition-all active:scale-95">
+<span class="material-symbols-outlined text-primary" data-icon="search">search</span>
+</button>
+</div>
+</nav>
+</header>
+<main class="flex-grow pt-32 pb-xl">
+<!-- Hero Section -->
+<section class="max-w-4xl mx-auto px-md text-center mb-xl">
+<h1 class="font-display-lg text-display-lg text-primary mb-sm">Uncovering Resistance</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+                AMR Atlas is a specialized analytical engine designed to visualize and predict antimicrobial resistance patterns across genomic datasets. Built by researchers, for researchers.
+            </p>
+</section>
+<!-- Stats Bento Grid -->
+<section class="max-w-5xl mx-auto px-md mb-xl">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+<!-- Stat 1 -->
+<div class="bg-surface-container-lowest p-md rounded-xl border border-outline-variant shadow-sm text-center flex flex-col items-center justify-center group hover:border-primary transition-colors duration-300">
+<span class="material-symbols-outlined text-primary text-4xl mb-sm" data-icon="database">database</span>
+<span class="font-display-lg text-display-lg text-primary">529</span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Total Isolates</span>
+</div>
+<!-- Stat 2 -->
+<div class="bg-surface-container-lowest p-md rounded-xl border border-outline-variant shadow-sm text-center flex flex-col items-center justify-center group hover:border-primary transition-colors duration-300">
+<span class="material-symbols-outlined text-primary text-4xl mb-sm" data-icon="microbiology">microbiology</span>
+<span class="font-display-lg text-display-lg text-primary">3</span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Target Species</span>
+</div>
+<!-- Stat 3 -->
+<div class="bg-surface-container-lowest p-md rounded-xl border border-outline-variant shadow-sm text-center flex flex-col items-center justify-center group hover:border-primary transition-colors duration-300">
+<span class="material-symbols-outlined text-primary text-4xl mb-sm" data-icon="medication">medication</span>
+<span class="font-display-lg text-display-lg text-primary">8</span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Tested Antibiotics</span>
+</div>
+</div>
+</section>
+<!-- Project Description -->
+<section class="max-w-4xl mx-auto px-md mb-xl">
+<div class="bg-surface-container-lowest p-xl rounded-xl border border-outline-variant relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="grid md:grid-cols-2 gap-lg items-start">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-md">Undergraduate Research Context</h2>
+<div class="space-y-md font-body-md text-body-md text-on-surface-variant leading-relaxed">
+<p>
+                                This project represents the culmination of a multi-semester undergraduate research initiative focused on the intersection of bioinformatics and clinical microbiology. Our goal was to create an accessible yet rigorous tool for predicting phenotypic resistance from genotypic data.
+                            </p>
+<p>
+                                By leveraging state-of-the-art machine learning models and high-throughput sequencing data, we aim to reduce the time-to-insight for clinicians faced with multidrug-resistant pathogens.
+                            </p>
+</div>
+</div>
+<div class="relative rounded-lg overflow-hidden h-64 shadow-md border border-outline-variant">
+<img alt="A professional medical researcher or doctor in a white coat looking at a digital tablet displaying genomic data and antibiotic ranking charts." class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOxhFc9SEN1XW9j_T3mxL_WjSsKkQ4LOQIMSIAUEbwZhoCg9aAEVVtUB4qSW5Z9mu62NuL52KbUKEtQhnW2Dhs4msAMuN7BBNG88qlTvFngDg90dfEz1ci3ZStobqMCBkl-qRdHuArKMctTkOcC2y6VbYNw-YfGmrQXtjc-deuPrqsVExWYGNYVOa8RHv9oUuVDfQFU3iROhG8QkAv_1L_yEnQgyhHBheI4N_fKJ-4kM47WLOmOj8zASfb6ybLaFWcJPoYbFyN3IE">
+<div class="absolute inset-0 bg-primary/10 mix-blend-overlay"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Acknowledgments -->
+<section class="max-w-4xl mx-auto px-md">
+<h2 class="font-headline-md text-headline-md text-primary mb-md text-center">Acknowledgments</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="bg-surface-container-low p-md rounded-lg">
+<h3 class="font-label-md text-label-md text-primary uppercase mb-xs">Principal Investigator</h3>
+<p class="font-headline-md text-headline-md text-on-surface mb-xs">Dr. Sarah Henderson</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Department of Biomedical Informatics, Center for Pathogen Genomics.</p>
+</div>
+<div class="bg-surface-container-low p-md rounded-lg">
+<h3 class="font-label-md text-label-md text-primary uppercase mb-xs">Contributing Partners</h3>
+<p class="font-headline-md text-headline-md text-on-surface mb-xs">Genomic Data Alliance</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Providing the sequence repositories and clinical validation datasets.</p>
+</div>
+</div>
+<div class="mt-lg p-md border-t border-outline-variant text-center">
+<p class="font-body-sm text-body-sm text-on-surface-variant italic">
+                    Special thanks to the Undergraduate Research Fund for supporting the computational resources required for this analysis.
+                </p>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-primary-container text-on-primary-container mt-xl">
+<div class="flex flex-col md:flex-row justify-between items-center px-lg py-md w-full max-w-container-max mx-auto">
+<div class="flex flex-col gap-xs mb-md md:mb-0">
+<span class="font-headline-md text-headline-md text-on-primary-container">AMR Atlas</span>
+<p class="font-body-sm text-body-sm opacity-90">
+                    © 2024 AMR Atlas. Educational tool for research purposes only. Not for clinical diagnosis.
+                </p>
+</div>
+<div class="flex gap-md">
+<a class="font-body-sm text-body-sm opacity-90 hover:opacity-100 hover:underline transition-opacity duration-200" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm opacity-90 hover:opacity-100 hover:underline transition-opacity duration-200" href="#">Terms of Service</a>
+<a class="font-body-sm text-body-sm opacity-90 hover:opacity-100 hover:underline transition-opacity duration-200" href="#">Contact Support</a>
+</div>
+</div>
+</footer>
+<script>
+        // Simple scroll reveal interaction
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-4');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('transition-all', 'duration-700', 'ease-out', 'opacity-0', 'translate-y-4');
+            observer.observe(section);
+        });
+
+        // Interactive stat boxes
+        document.querySelectorAll('.group').forEach(box => {
+            box.addEventListener('mouseenter', () => {
+                const icon = box.querySelector('.material-symbols-outlined');
+                if (icon) {
+                    icon.style.transform = 'scale(1.1) rotate(5deg)';
+                    icon.style.transition = 'transform 0.3s ease';
+                }
+            });
+            box.addEventListener('mouseleave', () => {
+                const icon = box.querySelector('.material-symbols-outlined');
+                if (icon) {
+                    icon.style.transform = 'scale(1) rotate(0deg)';
+                }
+            });
+        });
+    </script>
+</body></html>
