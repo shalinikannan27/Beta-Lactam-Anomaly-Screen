@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from fastapi.responses import StreamingResponse
+from fastapi.responses import Response, StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from schemas import PredictRequest, PredictResponse, ReportRequest
 from ranking import rank_antibiotics
@@ -99,8 +99,8 @@ def report(req: ReportRequest):
 
     pdf_bytes = generate_report_pdf(patient_info, isolate_info, gene_input, results, explanations)
 
-    return StreamingResponse(
-        io.BytesIO(pdf_bytes),
+    return Response(
+        content=pdf_bytes,
         media_type="application/pdf",
         headers={"Content-Disposition": "attachment; filename=amr_report.pdf"}
     )

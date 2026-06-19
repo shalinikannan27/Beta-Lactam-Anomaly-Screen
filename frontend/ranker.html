@@ -150,29 +150,37 @@
 <div class="grid grid-cols-1 gap-sm">
 <label class="block">
 <span class="text-body-sm font-semibold mb-1 block">Species</span>
-<select class="w-full h-10 px-3 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary-container focus:border-primary-container outline-none transition-all">
-<option>Streptococcus pyogenes</option>
-<option>Staphylococcus aureus</option>
-<option>Escherichia coli</option>
-<option>Klebsiella pneumoniae</option>
+<select id="species-select" class="w-full h-10 px-3 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary-container focus:border-primary-container outline-none transition-all">
+<option>S. pyogenes — Group A Strep</option>
+<option>S. pneumoniae — Pneumococcus</option>
+<option>S. agalactiae — Group B Strep</option>
 </select>
 </label>
 </div>
 <div class="grid grid-cols-2 gap-sm">
 <label class="block">
 <span class="text-body-sm font-semibold mb-1 block">Isolation Type</span>
-<select class="w-full h-10 px-3 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary-container outline-none">
-<option>Blood</option>
-<option>Sputum</option>
-<option>Wound</option>
-<option>Urine</option>
+<select id="iso-type-select" class="w-full h-10 px-3 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary-container outline-none">
+<option>Clinical</option>
+<option>Unknown</option>
 </select>
 </label>
 <label class="block">
 <span class="text-body-sm font-semibold mb-1 block">Collection Year</span>
-<input class="w-full h-10 px-3 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary-container outline-none" type="number" value="2024">
+<input id="year-input" class="w-full h-10 px-3 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary-container outline-none" type="number" value="2024">
 </label>
 </div>
+<div class="grid grid-cols-1 gap-sm">
+<label class="block">
+<span class="text-body-sm font-semibold mb-1 block">Country</span>
+<select id="country-select" class="w-full h-10 px-3 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary-container outline-none">
+<option>USA</option>
+<option>Canada</option>
+<option>Brazil</option>
+<option>Unknown</option>
+<option>Other</option>
+</select>
+</label>
 </div>
 </section>
 <hr class="border-surface-variant">
@@ -182,55 +190,55 @@
 <h3 class="font-label-md text-label-md text-primary uppercase tracking-wider">Resistance Genes</h3>
 <span class="text-[10px] font-code-md text-outline">GENOMIC MAPPING ACTIVE</span>
 </div>
-<div class="grid grid-cols-2 gap-x-gutter gap-y-sm">
+<div id="gene-checkboxes" class="grid grid-cols-2 gap-x-gutter gap-y-sm">
 <!-- Gene Item -->
 <label class="flex items-start gap-2 cursor-pointer group">
-<input checked="" class="mt-1 w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox">
+<input data-gene="mef(a)" class="mt-1 w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox">
 <div>
 <span class="font-code-md text-code-md block text-on-surface">mef(A)</span>
 <span class="text-[11px] text-outline block leading-tight">Macrolide efflux protein</span>
 </div>
 </label>
 <label class="flex items-start gap-2 cursor-pointer group">
-<input checked="" class="mt-1 w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox">
+<input data-gene="msr(d)" class="mt-1 w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox">
 <div>
 <span class="font-code-md text-code-md block text-on-surface">msr(D)</span>
 <span class="text-[11px] text-outline block leading-tight">ABC-F type ribosomal protection</span>
 </div>
 </label>
 <label class="flex items-start gap-2 cursor-pointer group">
-<input class="mt-1 w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox">
+<input data-gene="erm(b)" class="mt-1 w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox">
 <div>
 <span class="font-code-md text-code-md block text-on-surface">erm(B)</span>
 <span class="text-[11px] text-outline block leading-tight">rRNA methyltransferase</span>
 </div>
 </label>
 <label class="flex items-start gap-2 cursor-pointer group">
-<input class="mt-1 w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox">
+<input data-gene="tet(m)" class="mt-1 w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox">
 <div>
 <span class="font-code-md text-code-md block text-on-surface">tet(M)</span>
 <span class="text-[11px] text-outline block leading-tight">Tetracycline resistance</span>
 </div>
 </label>
 <label class="flex items-start gap-2 cursor-pointer group">
-<input class="mt-1 w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox">
-<div>
-<span class="font-code-md text-code-md block text-on-surface">gyrA</span>
-<span class="text-[11px] text-outline block leading-tight">Fluoroquinolone mutation</span>
-</div>
-</label>
-<label class="flex items-start gap-2 cursor-pointer group">
-<input class="mt-1 w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox">
-<div>
-<span class="font-code-md text-code-md block text-on-surface">parC</span>
-<span class="text-[11px] text-outline block leading-tight">Topoisomerase IV subunit</span>
-</div>
-</label>
-<label class="flex items-start gap-2 cursor-pointer group">
-<input class="mt-1 w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox">
+<input data-gene="pbp2b" class="mt-1 w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox">
 <div>
 <span class="font-code-md text-code-md block text-on-surface">pbp2b</span>
 <span class="text-[11px] text-outline block leading-tight">Beta-lactam target alt</span>
+</div>
+</label>
+<label class="flex items-start gap-2 cursor-pointer group">
+<input data-gene="pbp2x" class="mt-1 w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox">
+<div>
+<span class="font-code-md text-code-md block text-on-surface">pbp2x</span>
+<span class="text-[11px] text-outline block leading-tight">Penicillin-binding protein 2x</span>
+</div>
+</label>
+<label class="flex items-start gap-2 cursor-pointer group">
+<input data-gene="pbp1a" class="mt-1 w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox">
+<div>
+<span class="font-code-md text-code-md block text-on-surface">pbp1a</span>
+<span class="text-[11px] text-outline block leading-tight">Penicillin-binding protein 1a</span>
 </div>
 </label>
 </div>
@@ -242,29 +250,33 @@
 <div class="space-y-md">
 <div>
 <span class="text-body-sm font-semibold mb-2 block">Infection Site</span>
-<div class="grid grid-cols-4 gap-xs">
-<button class="flex flex-col items-center justify-center p-2 rounded-lg border border-primary-container bg-primary-container/10 text-primary-container transition-all" type="button">
+<div id="site-buttons" class="grid grid-cols-5 gap-xs">
+<button data-site="Throat" class="site-btn flex flex-col items-center justify-center p-2 rounded-lg border border-primary-container bg-primary-container/10 text-primary-container transition-all" type="button">
 <span class="material-symbols-outlined mb-1" data-icon="respiratory_rate">respiratory_rate</span>
-<span class="text-[10px] font-bold">Lungs</span>
+<span class="text-[10px] font-bold">Throat</span>
 </button>
-<button class="flex flex-col items-center justify-center p-2 rounded-lg border border-outline-variant hover:bg-surface-container transition-all" type="button">
+<button data-site="Blood" class="site-btn flex flex-col items-center justify-center p-2 rounded-lg border border-outline-variant hover:bg-surface-container transition-all" type="button">
 <span class="material-symbols-outlined mb-1" data-icon="bloodtype">bloodtype</span>
-<span class="text-[10px] font-bold">Sepsis</span>
+<span class="text-[10px] font-bold">Blood</span>
 </button>
-<button class="flex flex-col items-center justify-center p-2 rounded-lg border border-outline-variant hover:bg-surface-container transition-all" type="button">
+<button data-site="Skin" class="site-btn flex flex-col items-center justify-center p-2 rounded-lg border border-outline-variant hover:bg-surface-container transition-all" type="button">
 <span class="material-symbols-outlined mb-1" data-icon="personal_injury">personal_injury</span>
 <span class="text-[10px] font-bold">Skin</span>
 </button>
-<button class="flex flex-col items-center justify-center p-2 rounded-lg border border-outline-variant hover:bg-surface-container transition-all" type="button">
-<span class="material-symbols-outlined mb-1" data-icon="neurology">neurology</span>
-<span class="text-[10px] font-bold">CNS</span>
+<button data-site="Neonatal" class="site-btn flex flex-col items-center justify-center p-2 rounded-lg border border-outline-variant hover:bg-surface-container transition-all" type="button">
+<span class="material-symbols-outlined mb-1" data-icon="child_care">child_care</span>
+<span class="text-[10px] font-bold">Neonatal</span>
+</button>
+<button data-site="Other" class="site-btn flex flex-col items-center justify-center p-2 rounded-lg border border-outline-variant hover:bg-surface-container transition-all" type="button">
+<span class="material-symbols-outlined mb-1" data-icon="more_horiz">more_horiz</span>
+<span class="text-[10px] font-bold">Other</span>
 </button>
 </div>
 </div>
 <div class="grid grid-cols-2 gap-sm">
 <label class="block">
 <span class="text-body-sm font-semibold mb-1 block">Age Group</span>
-<select class="w-full h-10 px-3 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary-container outline-none">
+<select id="age-group-select" class="w-full h-10 px-3 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary-container outline-none">
 <option>Adult</option>
 <option>Pediatric</option>
 <option>Neonatal</option>
@@ -273,25 +285,67 @@
 <div class="flex items-center justify-between pt-6">
 <span class="text-body-sm font-semibold">Pregnant</span>
 <label class="relative inline-flex items-center cursor-pointer">
-<input class="sr-only peer" type="checkbox" value="">
+<input id="pregnant-toggle" class="sr-only peer" type="checkbox" value="">
 <div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
 </label>
 </div>
 </div>
 <div>
 <span class="text-body-sm font-semibold mb-2 block">Drug Allergies</span>
-<div class="flex flex-wrap gap-2">
-<span class="bg-surface-container-high text-on-surface px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 border border-outline-variant">
-                                        Penicillins <button class="material-symbols-outlined text-sm" data-icon="close" type="button">close</button>
-</span>
-<button class="text-primary-container border border-primary-container border-dashed px-3 py-1 rounded-full text-xs font-semibold hover:bg-primary-container/5 transition-colors" type="button">
-                                        + Add Allergy
-                                    </button>
+<div id="allergy-container" class="flex flex-wrap gap-2">
+<button data-allergy="penicillin" class="allergy-pill bg-surface-container-high text-on-surface px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 border border-outline-variant cursor-pointer transition-all hover:opacity-80" type="button">Penicillin</button>
+<button data-allergy="macrolide" class="allergy-pill bg-surface-container-high text-on-surface px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 border border-outline-variant cursor-pointer transition-all hover:opacity-80" type="button">Macrolide</button>
+<button data-allergy="clindamycin" class="allergy-pill bg-surface-container-high text-on-surface px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 border border-outline-variant cursor-pointer transition-all hover:opacity-80" type="button">Clindamycin</button>
+<button data-allergy="cephalosporin" class="allergy-pill bg-surface-container-high text-on-surface px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 border border-outline-variant cursor-pointer transition-all hover:opacity-80" type="button">Cephalosporin</button>
+<button data-allergy="carbapenem" class="allergy-pill bg-surface-container-high text-on-surface px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 border border-outline-variant cursor-pointer transition-all hover:opacity-80" type="button">Carbapenem</button>
+<button data-allergy="sulfa" class="allergy-pill bg-surface-container-high text-on-surface px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 border border-outline-variant cursor-pointer transition-all hover:opacity-80" type="button">Sulfa</button>
 </div>
 </div>
 </div>
 </section>
-<button class="w-full h-12 bg-tertiary-container hover:bg-tertiary transition-colors text-on-tertiary-container font-bold rounded-lg flex items-center justify-center gap-2 shadow-sm active:scale-95 duration-200" type="button">
+<details class="group bg-surface-container-lowest border border-outline-variant rounded-lg p-sm cursor-pointer mb-md">
+    <summary class="font-label-md text-primary font-bold flex justify-between items-center outline-none">
+        Optional: Patient Report Details
+        <span class="material-symbols-outlined transition-transform group-open:rotate-180" data-icon="expand_more">expand_more</span>
+    </summary>
+    <div class="mt-sm space-y-sm text-body-sm cursor-auto">
+        <div class="grid grid-cols-2 gap-sm">
+            <label class="block">
+                <span class="font-semibold mb-1 block">Patient ID / Name</span>
+                <input id="patient-id-input" class="w-full h-10 px-3 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary-container outline-none" type="text" placeholder="Anonymous">
+            </label>
+            <label class="block">
+                <span class="font-semibold mb-1 block">Age</span>
+                <input id="patient-age-input" class="w-full h-10 px-3 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary-container outline-none" type="number" placeholder="e.g. 45">
+            </label>
+        </div>
+        <div class="grid grid-cols-2 gap-sm">
+            <label class="block">
+                <span class="font-semibold mb-1 block">Sex</span>
+                <select id="patient-sex-select" class="w-full h-10 px-3 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary-container outline-none">
+                    <option value="">Select...</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </label>
+            <label class="block">
+                <span class="font-semibold mb-1 block">Weight (kg)</span>
+                <input id="patient-weight-input" class="w-full h-10 px-3 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary-container outline-none" type="number" step="0.1" placeholder="e.g. 70.5">
+            </label>
+        </div>
+        <div>
+            <span class="font-semibold mb-2 block">Comorbidities</span>
+            <div id="comorbidity-container" class="flex flex-wrap gap-2">
+                <button data-comorbidity="Diabetes" class="comorbidity-pill bg-surface-container-high text-on-surface px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 border border-outline-variant cursor-pointer transition-all hover:opacity-80" type="button">Diabetes</button>
+                <button data-comorbidity="Renal Impairment" class="comorbidity-pill bg-surface-container-high text-on-surface px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 border border-outline-variant cursor-pointer transition-all hover:opacity-80" type="button">Renal Impairment</button>
+                <button data-comorbidity="Hepatic Impairment" class="comorbidity-pill bg-surface-container-high text-on-surface px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 border border-outline-variant cursor-pointer transition-all hover:opacity-80" type="button">Hepatic Impairment</button>
+                <button data-comorbidity="Immunocompromised" class="comorbidity-pill bg-surface-container-high text-on-surface px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 border border-outline-variant cursor-pointer transition-all hover:opacity-80" type="button">Immunocompromised</button>
+            </div>
+        </div>
+    </div>
+</details>
+<button id="submit-btn" class="w-full h-12 bg-tertiary-container hover:bg-tertiary transition-colors text-on-tertiary-container font-bold rounded-lg flex items-center justify-center gap-2 shadow-sm active:scale-95 duration-200" type="button">
                         Get Antibiotic Ranking 
                         <span class="material-symbols-outlined" data-icon="trending_flat">trending_flat</span>
 </button>
@@ -304,15 +358,18 @@
 <div class="flex justify-between items-start mb-md">
 <div>
 <h2 class="font-headline-md text-headline-md text-on-background">Ranking Results</h2>
-<p class="text-body-sm text-on-surface-variant flex items-center gap-1">
+<p id="results-summary-text" class="text-body-sm text-on-surface-variant flex items-center gap-1">
 <span class="material-symbols-outlined text-sm" data-icon="science">science</span>
-                                Profile: S. pyogenes + mef(A), msr(D)
+                                Profile: Select options to get ranking
                             </p>
 </div>
-<button class="flex items-center gap-2 bg-primary-container text-white px-4 py-2 rounded-lg font-label-md hover:opacity-90 transition-opacity">
+<div class="flex flex-col items-end gap-1">
+<button id="download-btn" class="flex items-center gap-2 bg-primary-container text-white px-4 py-2 rounded-lg font-label-md hover:opacity-90 transition-opacity" style="display: none;">
 <span class="material-symbols-outlined text-sm" data-icon="download">download</span>
-                            Download Report PDF
+                            <span id="download-btn-text">Download Report PDF</span>
                         </button>
+<span id="download-error" class="text-error text-xs font-bold" style="display: none;"></span>
+</div>
 </div>
 <!-- Rankings Table -->
 <div class="overflow-x-auto custom-scrollbar">
@@ -328,93 +385,14 @@
 <th class="pb-3 font-label-md text-on-surface-variant">Recommendation</th>
 </tr>
 </thead>
-<tbody class="divide-y divide-surface-variant">
-<!-- Row 1 -->
-<tr class="hover:bg-surface-container-low transition-colors group">
-<td class="py-4 font-bold text-primary">#1</td>
-<td class="py-4">
-<div class="font-bold">Vancomycin</div>
-<div class="text-[10px] text-outline">IV Only</div>
-</td>
-<td class="py-4 text-body-sm text-on-surface-variant">Glycopeptide</td>
-<td class="py-4 text-center font-code-md text-secondary">0.1%</td>
-<td class="py-4 min-w-[100px]">
-<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
-<div class="bg-secondary h-full rounded-full" style="width: 98%"></div>
+<tbody id="results-tbody" class="divide-y divide-surface-variant">
+<!-- Empty state initially -->
+<tr>
+<td colspan="7" class="py-8 text-center text-on-surface-variant">
+<div class="flex flex-col items-center justify-center gap-2">
+<span class="material-symbols-outlined text-4xl opacity-50" data-icon="biotech">biotech</span>
+<p>No results yet. Enter isolate details and click "Get Antibiotic Ranking" to view recommendations.</p>
 </div>
-</td>
-<td class="py-4 text-right font-bold">9.8</td>
-<td class="py-4">
-<span class="inline-flex items-center gap-1 px-2 py-1 bg-secondary-container/30 text-on-secondary-container text-[11px] font-bold rounded-lg whitespace-nowrap">
-<span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span>
-                                            Recommended
-                                        </span>
-</td>
-</tr>
-<!-- Row 2 -->
-<tr class="hover:bg-surface-container-low transition-colors group">
-<td class="py-4 font-bold text-primary">#2</td>
-<td class="py-4">
-<div class="font-bold">Clindamycin</div>
-<div class="text-[10px] text-outline">Oral/IV</div>
-</td>
-<td class="py-4 text-body-sm text-on-surface-variant">Lincosamide</td>
-<td class="py-4 text-center font-code-md text-tertiary">4.2%</td>
-<td class="py-4 min-w-[100px]">
-<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
-<div class="bg-tertiary-fixed-dim h-full rounded-full" style="width: 92%"></div>
-</div>
-</td>
-<td class="py-4 text-right font-bold">9.1</td>
-<td class="py-4">
-<span class="inline-flex items-center gap-1 px-2 py-1 bg-tertiary-fixed/30 text-tertiary text-[11px] font-bold rounded-lg whitespace-nowrap">
-<span class="material-symbols-outlined text-sm" data-icon="warning">warning</span>
-                                            Use with Caution
-                                        </span>
-</td>
-</tr>
-<!-- Row 3 -->
-<tr class="hover:bg-surface-container-low transition-colors group">
-<td class="py-4 font-bold text-primary">#3</td>
-<td class="py-4">
-<div class="font-bold">Erythromycin</div>
-<div class="text-[10px] text-outline">Oral</div>
-</td>
-<td class="py-4 text-body-sm text-on-surface-variant">Macrolide</td>
-<td class="py-4 text-center font-code-md text-error">94.8%</td>
-<td class="py-4 min-w-[100px]">
-<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
-<div class="bg-error h-full rounded-full" style="width: 12%"></div>
-</div>
-</td>
-<td class="py-4 text-right font-bold">1.4</td>
-<td class="py-4">
-<span class="inline-flex items-center gap-1 px-2 py-1 bg-error-container text-on-error-container text-[11px] font-bold rounded-lg whitespace-nowrap">
-<span class="material-symbols-outlined text-sm" data-icon="cancel">cancel</span>
-                                            Not Recommended
-                                        </span>
-</td>
-</tr>
-<!-- Row 4 (Contraindicated) -->
-<tr class="bg-error-container/10 group">
-<td class="py-4 font-bold text-error">--</td>
-<td class="py-4">
-<div class="font-bold">Amoxicillin</div>
-<div class="text-[10px] text-error">Allergy Risk</div>
-</td>
-<td class="py-4 text-body-sm text-on-surface-variant">Penicillin</td>
-<td class="py-4 text-center font-code-md text-secondary">0.0%</td>
-<td class="py-4 min-w-[100px]">
-<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
-<div class="bg-on-error-container h-full rounded-full" style="width: 100%"></div>
-</div>
-</td>
-<td class="py-4 text-right font-bold text-error">N/A</td>
-<td class="py-4">
-<span class="inline-flex items-center gap-1 px-2 py-1 bg-on-error-container text-white text-[11px] font-bold rounded-lg whitespace-nowrap">
-<span class="material-symbols-outlined text-sm" data-icon="block">block</span>
-                                            Contraindicated
-                                        </span>
 </td>
 </tr>
 </tbody>
@@ -478,5 +456,307 @@
                 setTimeout(() => this.classList.remove('scale-95'), 150);
             });
         });
+
+        // Application State
+        let selectedSpecies = "S. pyogenes — Group A Strep";
+        let selectedSite = "Other";
+        let selectedAllergies = [];
+        let selectedComorbidities = [];
+        let currentPredictPayload = null; // Store last successful payload
+
+        // Maps
+        const speciesMap = { 
+            "S. pyogenes — Group A Strep": "pyogenes", 
+            "S. pneumoniae — Pneumococcus": "pneumoniae", 
+            "S. agalactiae — Group B Strep": "agalactiae" 
+        };
+        const siteMap = { 
+            "Throat": "throat", 
+            "Blood": "blood", 
+            "Skin": "skin", 
+            "Neonatal": "neonatal", 
+            "Other": "other" 
+        };
+
+        // Selectors
+        const speciesSelect = document.getElementById('species-select');
+        const isoTypeSelect = document.getElementById('iso-type-select');
+        const countrySelect = document.getElementById('country-select');
+        const yearInput = document.getElementById('year-input');
+        const ageGroupSelect = document.getElementById('age-group-select');
+        const pregnantToggle = document.getElementById('pregnant-toggle');
+        const submitBtn = document.getElementById('submit-btn');
+        const tbody = document.getElementById('results-tbody');
+        const resultsSummaryText = document.getElementById('results-summary-text');
+        
+        // Report selectors
+        const patientIdInput = document.getElementById('patient-id-input');
+        const patientAgeInput = document.getElementById('patient-age-input');
+        const patientSexSelect = document.getElementById('patient-sex-select');
+        const patientWeightInput = document.getElementById('patient-weight-input');
+        const downloadBtn = document.getElementById('download-btn');
+        const downloadBtnText = document.getElementById('download-btn-text');
+        const downloadError = document.getElementById('download-error');
+
+        // Site selection
+        const siteBtns = document.querySelectorAll('.site-btn');
+        siteBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                siteBtns.forEach(b => {
+                    b.classList.remove('border-primary-container', 'bg-primary-container/10', 'text-primary-container');
+                    b.classList.add('border-outline-variant');
+                });
+                btn.classList.remove('border-outline-variant');
+                btn.classList.add('border-primary-container', 'bg-primary-container/10', 'text-primary-container');
+                selectedSite = btn.dataset.site;
+            });
+        });
+
+        // Allergy selection
+        const allergyBtns = document.querySelectorAll('.allergy-pill');
+        allergyBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const allergy = btn.dataset.allergy;
+                if (selectedAllergies.includes(allergy)) {
+                    selectedAllergies = selectedAllergies.filter(a => a !== allergy);
+                    btn.classList.remove('bg-error-container', 'text-on-error-container', 'border-error');
+                    btn.classList.add('bg-surface-container-high', 'text-on-surface', 'border-outline-variant');
+                } else {
+                    selectedAllergies.push(allergy);
+                    btn.classList.remove('bg-surface-container-high', 'text-on-surface', 'border-outline-variant');
+                    btn.classList.add('bg-error-container', 'text-on-error-container', 'border-error');
+                }
+            });
+        });
+
+        // Comorbidity selection
+        const comorbidityBtns = document.querySelectorAll('.comorbidity-pill');
+        comorbidityBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const comorbidity = btn.dataset.comorbidity;
+                if (selectedComorbidities.includes(comorbidity)) {
+                    selectedComorbidities = selectedComorbidities.filter(c => c !== comorbidity);
+                    btn.classList.remove('bg-primary-container', 'text-white', 'border-primary');
+                    btn.classList.add('bg-surface-container-high', 'text-on-surface', 'border-outline-variant');
+                } else {
+                    selectedComorbidities.push(comorbidity);
+                    btn.classList.remove('bg-surface-container-high', 'text-on-surface', 'border-outline-variant');
+                    btn.classList.add('bg-primary-container', 'text-white', 'border-primary');
+                }
+            });
+        });
+
+        // API Integration
+        submitBtn.addEventListener('click', async () => {
+            // Hide download button
+            downloadBtn.style.display = 'none';
+            downloadError.style.display = 'none';
+            currentPredictPayload = null;
+
+            // Get selected genes
+            const genes = Array.from(document.querySelectorAll('#gene-checkboxes input:checked')).map(cb => cb.dataset.gene);
+            
+            // Format profile text
+            selectedSpecies = speciesSelect.value;
+            const speciesShort = speciesMap[selectedSpecies].charAt(0).toUpperCase() + speciesMap[selectedSpecies].slice(1);
+            let profileText = `Profile: S. ${speciesShort}`;
+            if (genes.length > 0) {
+                profileText += ` + ${genes.join(', ')}`;
+            }
+            resultsSummaryText.innerHTML = `<span class="material-symbols-outlined text-sm" data-icon="science">science</span> ${profileText}`;
+
+            // Build payload
+            const countryVal = countrySelect.value;
+            const payload = {
+                genes: {
+                    gene_mef_a: genes.includes('mef(a)') ? 1 : 0,
+                    gene_msr_d: genes.includes('msr(d)') ? 1 : 0,
+                    gene_erm_b: genes.includes('erm(b)') ? 1 : 0,
+                    gene_tet_m: genes.includes('tet(m)') ? 1 : 0,
+                    gene_pbp2b: genes.includes('pbp2b') ? 1 : 0,
+                    gene_pbp2x: genes.includes('pbp2x') ? 1 : 0,
+                    gene_pbp1a: genes.includes('pbp1a') ? 1 : 0,
+                },
+                species: speciesMap[selectedSpecies],
+                iso_type: isoTypeSelect.value.toLowerCase(),
+                country: countryVal === "Other" ? "other" : countryVal === "Unknown" ? "unknown" : countryVal,
+                year: parseInt(yearInput.value) || 2024,
+                allergies: selectedAllergies.map(a => a.toLowerCase()),
+                infection_site: siteMap[selectedSite],
+                pregnant: pregnantToggle.checked,
+                age_group: ageGroupSelect.value.toLowerCase(),
+            };
+
+            // Loading state
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="7" class="py-8">
+                        <div class="flex flex-col items-center justify-center gap-2">
+                            <div class="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                            <p class="text-on-surface-variant animate-pulse">Running prediction models...</p>
+                        </div>
+                    </td>
+                </tr>
+            `;
+
+            try {
+                const API_URL = "http://localhost:8000";
+                const response = await fetch(`${API_URL}/predict`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) throw new Error("API Request Failed");
+
+                const data = await response.json();
+                renderResults(data.results);
+                
+                // Show download button and save payload for report
+                currentPredictPayload = payload;
+                if (data.results && data.results.length > 0) {
+                    downloadBtn.style.display = 'flex';
+                }
+            } catch (err) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="py-8 text-center text-error">
+                            <div class="flex flex-col items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-4xl" data-icon="error">error</span>
+                                <p>Unable to connect to prediction service. Please ensure the backend is running.</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }
+        });
+
+        // Report Download Integration
+        downloadBtn.addEventListener('click', async () => {
+            if (!currentPredictPayload) return;
+
+            // Update button state to loading
+            downloadBtn.disabled = true;
+            downloadBtn.classList.add('opacity-70', 'cursor-not-allowed');
+            downloadBtn.querySelector('span.material-symbols-outlined').innerHTML = 'hourglass_empty';
+            downloadBtn.querySelector('span.material-symbols-outlined').classList.add('animate-spin');
+            downloadBtnText.innerText = 'Generating Report...';
+            downloadError.style.display = 'none';
+
+            const reportPayload = {
+                ...currentPredictPayload,
+                patient_id: patientIdInput.value || "Anonymous",
+                patient_age: patientAgeInput.value ? parseInt(patientAgeInput.value) : null,
+                sex: patientSexSelect.value || null,
+                weight_kg: patientWeightInput.value ? parseFloat(patientWeightInput.value) : null,
+                comorbidities: selectedComorbidities,
+            };
+
+            try {
+                const API_URL = "http://localhost:8000";
+                const response = await fetch(`${API_URL}/report`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(reportPayload),
+                });
+
+                if (!response.ok) throw new Error('Report generation failed');
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'amr_report.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            } catch (err) {
+                downloadError.innerText = 'Failed to generate report. Please try again.';
+                downloadError.style.display = 'block';
+            } finally {
+                // Restore button state
+                downloadBtn.disabled = false;
+                downloadBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+                downloadBtn.querySelector('span.material-symbols-outlined').innerHTML = 'download';
+                downloadBtn.querySelector('span.material-symbols-outlined').classList.remove('animate-spin');
+                downloadBtnText.innerText = 'Download Report PDF';
+            }
+        });
+
+        function renderResults(results) {
+            tbody.innerHTML = '';
+            
+            if (!results || results.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="py-8 text-center text-on-surface-variant">
+                            <p>No results found for this profile.</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            results.forEach(item => {
+                const isContra = item.recommendation.startsWith("Contraindicated");
+                const isNotRec = item.recommendation.startsWith("Not Recommended");
+                const isCaution = item.recommendation.startsWith("Use with Caution");
+                const isRec = item.recommendation.startsWith("Recommended");
+
+                let trClass = "hover:bg-surface-container-low transition-colors group";
+                if (isContra) trClass = "bg-error-container/10 group";
+
+                let rankContent = `<td class="py-4 font-bold text-primary">#${item.rank}</td>`;
+                if (isContra) rankContent = `<td class="py-4 font-bold text-error">--</td>`;
+
+                let resColor = "text-secondary";
+                let fillClass = "bg-secondary";
+                
+                if (item.effectiveness_pct < 50) {
+                    resColor = "text-error";
+                    fillClass = "bg-error";
+                } else if (item.effectiveness_pct < 80) {
+                    resColor = "text-tertiary";
+                    fillClass = "bg-tertiary-fixed-dim";
+                }
+                
+                if (isContra) {
+                    fillClass = "bg-on-error-container";
+                }
+
+                let badgeHtml = '';
+                if (isRec) {
+                    badgeHtml = `<span class="inline-flex items-center gap-1 px-2 py-1 bg-secondary-container/30 text-on-secondary-container text-[11px] font-bold rounded-lg whitespace-nowrap"><span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span>${item.recommendation}</span>`;
+                } else if (isCaution) {
+                    badgeHtml = `<span class="inline-flex items-center gap-1 px-2 py-1 bg-tertiary-fixed/30 text-tertiary text-[11px] font-bold rounded-lg whitespace-nowrap"><span class="material-symbols-outlined text-sm" data-icon="warning">warning</span>${item.recommendation}</span>`;
+                } else if (isNotRec) {
+                    badgeHtml = `<span class="inline-flex items-center gap-1 px-2 py-1 bg-error-container text-on-error-container text-[11px] font-bold rounded-lg whitespace-nowrap"><span class="material-symbols-outlined text-sm" data-icon="cancel">cancel</span>${item.recommendation}</span>`;
+                } else if (isContra) {
+                    badgeHtml = `<span class="inline-flex items-center gap-1 px-2 py-1 bg-on-error-container text-white text-[11px] font-bold rounded-lg whitespace-nowrap"><span class="material-symbols-outlined text-sm" data-icon="block">block</span>${item.recommendation}</span>`;
+                }
+
+                const scoreContent = isContra ? "N/A" : item.final_score.toFixed(1);
+
+                const html = `
+                    <tr class="${trClass}">
+                        ${rankContent}
+                        <td class="py-4">
+                            <div class="font-bold capitalize">${item.antibiotic}</div>
+                        </td>
+                        <td class="py-4 text-body-sm text-on-surface-variant">Drug</td>
+                        <td class="py-4 text-center font-code-md ${resColor}">${item.resistance_pct.toFixed(1)}%</td>
+                        <td class="py-4 min-w-[100px]">
+                            <div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+                                <div class="${fillClass} h-full rounded-full" style="width: ${isContra ? '100' : item.effectiveness_pct.toFixed(0)}%"></div>
+                            </div>
+                        </td>
+                        <td class="py-4 text-right font-bold ${isContra ? 'text-error' : ''}">${scoreContent}</td>
+                        <td class="py-4">${badgeHtml}</td>
+                    </tr>
+                `;
+                tbody.innerHTML += html;
+            });
+        }
     </script>
 </body></html>
