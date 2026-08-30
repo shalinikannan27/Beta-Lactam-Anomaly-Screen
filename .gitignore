@@ -1,0 +1,18 @@
+__pycache__/
+*.pyc
+venv/
+.venv/
+.env
+*.log
+.DS_Store
+node_modules/
+
+# Raw genome/FASTA/BioProject data files (NCBI BioProject PRJNA817826)
+data/
+*.fasta
+*.faa
+*.fna
+*.fastq
+*.jsonl
+*.zip
+*.csv

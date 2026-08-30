@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;family=JetBrains+Mono:wght@500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#f8f9ff",
+                        "primary-container": "#14b8a6",
+                        "primary": "#006b5f",
+                        "on-error": "#ffffff",
+                        "secondary": "#55615f",
+                        "surface": "#f8f9ff",
+                        "primary-fixed-dim": "#4fdbc8",
+                        "surface-dim": "#cbdbf5",
+                        "on-surface": "#0b1c30",
+                        "primary-fixed": "#71f8e4",
+                        "tertiary-fixed-dim": "#ffb59e",
+                        "on-tertiary-fixed-variant": "#7c2d11",
+                        "on-background": "#0b1c30",
+                        "surface-container-high": "#dce9ff",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#9b4426",
+                        "surface-tint": "#006b5f",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-low": "#eff4ff",
+                        "background": "#f8f9ff",
+                        "inverse-primary": "#4fdbc8",
+                        "inverse-on-surface": "#eaf1ff",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#bcc9c6",
+                        "on-secondary-fixed": "#121e1c",
+                        "secondary-container": "#d8e5e2",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#6c7a77",
+                        "on-primary-fixed": "#00201c",
+                        "tertiary-fixed": "#ffdbd0",
+                        "surface-container": "#e5eeff",
+                        "on-surface-variant": "#3c4947",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#d8e5e2",
+                        "outline-variant": "#bbcac6",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-tertiary-fixed": "#3a0b00",
+                        "error-container": "#ffdad6",
+                        "on-secondary-container": "#5b6765",
+                        "on-primary-container": "#00423b",
+                        "on-primary-fixed-variant": "#005048"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "xs": "4px",
+                        "xl": "40px",
+                        "stack-sm": "12px",
+                        "stack-md": "24px",
+                        "stack-lg": "48px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Manrope"],
+                        "label-sm": ["JetBrains Mono"],
+                        "display-lg": ["Manrope"],
+                        "headline-lg-mobile": ["Manrope"],
+                        "label-md": ["JetBrains Mono"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .tab-active {
+            color: #006b5f;
+            border-bottom: 2px solid #006b5f;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col" style="background-image: linear-gradient(rgba(248, 249, 255, 0.85), rgba(248, 249, 255, 0.85)), url('https://lh3.googleusercontent.com/aida/AP1WRLvH9QJY3F6gktkSGGo6So2rXN2Uo6qgEJTfNdynslDBq1xUBsqqRcVM-o4iZyeDZLB-A6UkDs591mpld1qkTNBFLAInthTemwAM1fGoAybkiCPrGmzw00W9wwOecsC5ZbU5XgIO1aL2oKaI5ujN0Ht8ums0RM5QRhdEpI2ON-RKRat3jqQ40_I9Ox6nXiDmg0nVtKbU2Zeu3ED79-7UIHhbcxUh9HmPed-4yFBHrCwvcHCjH9QXpF173g'); background-size: cover; background-attachment: fixed; background-position: center center;">
+<!-- TopNavBar -->
+<nav class="bg-surface-container-lowest/90 backdrop-blur-md border-b border-outline-variant flex justify-between items-center px-margin-desktop h-20 w-full max-w-container-max mx-auto sticky top-0 z-50">
+<div class="flex items-center gap-base">
+<span class="text-headline-md font-headline-md font-bold text-primary">S. pyogenes Ranker</span>
+</div>
+<div class="hidden md:flex items-center gap-stack-lg">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Home</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">How it Works</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-label-md text-label-md" href="#">Ranker</a>
+</div>
+<div class="flex items-center gap-stack-sm">
+<button class="bg-primary-container text-on-primary-container px-6 py-2 rounded-full font-label-md text-label-md hover:shadow-lg hover:brightness-105 active:scale-95 transition-all">
+            Generate Report
+        </button>
+<span class="material-symbols-outlined text-primary text-2xl cursor-pointer hover:bg-primary/10 p-2 rounded-full transition-all" data-original-icon="account_circle">account_circle</span>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-desktop py-stack-lg">
+<!-- Page Header -->
+<header class="mb-stack-lg">
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Clinical Analysis Engine</h1>
+<p class="text-on-surface-variant font-body-md mt-base">Input molecular data to assess strain virulence risk. System optimized for diagnostic precision.</p>
+</header>
+<!-- Analysis Toggle & Input Section -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Input Form -->
+<div class="lg:col-span-5 space-y-gutter">
+<div class="glass-card rounded-xl p-stack-md shadow-sm">
+<!-- Tabs -->
+<div class="flex border-b border-outline-variant mb-stack-md">
+<button class="px-6 py-3 font-label-md text-label-md tab-active transition-all" id="tab-single" onclick="switchTab('single')">Single Isolate</button>
+<button class="px-6 py-3 font-label-md text-label-md text-on-surface-variant hover:text-primary transition-all" id="tab-batch" onclick="switchTab('batch')">Batch Processing</button>
+</div>
+<!-- Single Input View -->
+<div class="space-y-stack-md" id="view-single">
+<div class="space-y-base">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Isolate Identifier</label>
+<input class="w-full bg-white border border-outline-variant rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary-container focus:border-primary-container outline-none transition-all" placeholder="e.g. SP-2024-001" type="text"/>
+</div>
+<div class="space-y-base">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Genomic Sequence / Mutation List</label>
+<textarea class="w-full bg-white border border-outline-variant rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary-container focus:border-primary-container outline-none transition-all font-mono text-sm" placeholder="Paste FASTA sequence or comma-separated mutations (e.g. A123T, G44S)..." rows="6"></textarea>
+</div>
+<button class="w-full bg-primary text-on-primary py-4 rounded-xl font-label-md text-label-md shadow-md hover:brightness-110 hover:shadow-lg active:scale-[0.98] transition-all flex justify-center items-center gap-2">
+<span class="material-symbols-outlined">analytics</span>
+                        Run Analysis
+                    </button>
+</div>
+<!-- Batch Input View -->
+<div class="hidden space-y-stack-md" id="view-batch">
+<div class="border-2 border-dashed border-primary/30 rounded-xl p-stack-lg text-center bg-primary/5 hover:bg-primary/10 transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-4xl text-primary/60 mb-base group-hover:text-primary transition-colors">upload_file</span>
+<p class="font-label-md text-label-md text-on-surface-variant">Drop CSV or Excel clinical batch file here</p>
+<p class="text-xs text-outline mt-1">Maximum 500 isolates per batch</p>
+<input class="hidden" id="batch-upload" type="file"/>
+</div>
+<div class="flex items-center gap-base p-4 bg-surface-container-low border border-outline-variant rounded-lg">
+<span class="material-symbols-outlined text-primary">info</span>
+<p class="text-xs text-on-surface-variant">Expected format: IsolateID, Sequence/Mutations. <a class="text-primary font-bold underline" href="#">Download template</a>.</p>
+</div>
+<button class="w-full bg-secondary text-on-secondary py-4 rounded-xl font-label-md text-label-md shadow-md hover:brightness-110 active:scale-[0.98] transition-all flex justify-center items-center gap-2">
+<span class="material-symbols-outlined">batch_prediction</span>
+                        Queue Batch Job
+                    </button>
+</div>
+</div>
+<!-- Guidance Card -->
+<div class="bg-primary-container/10 border border-primary-container/30 rounded-xl p-stack-md">
+<h3 class="font-label-md text-label-md text-primary mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-original-icon="shield_health">verified_user</span>
+                    Clinical Interpretation Guide
+                </h3>
+<ul class="space-y-2 text-sm text-on-surface-variant">
+<li class="flex gap-2"><span class="text-error font-bold">Flag:</span> Indicates mutation profile associated with hyper-virulence or antibiotic resistance.</li>
+<li class="flex gap-2"><span class="text-primary font-bold">Safe:</span> Isolate aligns with surveillance strains; no high-risk markers detected.</li>
+</ul>
+</div>
+</div>
+<!-- Right Column: Results Area -->
+<div class="lg:col-span-7">
+<!-- Single Result View (Initial state: Placeholder) -->
+<div class="h-full flex flex-col items-center justify-center text-center p-stack-lg glass-card rounded-xl border-dashed border-2 border-outline-variant" id="results-placeholder">
+<span class="material-symbols-outlined text-6xl text-primary/30 mb-stack-md">query_stats</span>
+<h2 class="font-headline-md text-headline-md text-on-surface-variant">Awaiting Analysis</h2>
+<p class="text-on-surface-variant max-w-sm mt-base">Submit an isolate on the left to see the clinical diagnostic risk assessment and mutation breakdown.</p>
+</div>
+<!-- Single Result View (Mocked Content) -->
+<div class="hidden space-y-gutter" id="results-single">
+<div class="glass-card rounded-xl overflow-hidden shadow-sm">
+<div class="p-stack-md bg-error-container/30 flex justify-between items-center border-b border-outline-variant">
+<div>
+<span class="font-label-sm text-label-sm text-error uppercase tracking-wider font-bold">Classification Status</span>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-error text-3xl" style="font-variation-settings: 'FILL' 1;">flag</span>
+<h2 class="font-headline-md text-headline-md text-error">Flagged for Follow-up</h2>
+</div>
+</div>
+<button class="bg-white text-on-surface border border-outline-variant px-4 py-2 rounded-lg font-label-md text-label-md flex items-center gap-2 hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+                            Download Detailed Report
+                        </button>
+</div>
+<div class="p-stack-md space-y-stack-md">
+<div>
+<h3 class="font-label-md text-label-md text-on-surface-variant mb-base">DETERMINATIVE REASONING</h3>
+<p class="text-on-surface font-body-md leading-relaxed">
+                                This isolate contains a specific combination of <span class="font-bold text-primary">covR/S</span> regulatory mutations commonly associated with the M1T1 hyper-virulent lineage. These alterations are statistically correlated with increased production of streptolysin O and DNase B.
+                            </p>
+</div>
+<hr class="border-outline-variant"/>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface-variant mb-base">MUTATIONS IDENTIFIED</h3>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-base">
+<div class="bg-white p-3 rounded-lg border border-outline-variant shadow-sm">
+<div class="text-[10px] text-on-surface-variant font-label-sm uppercase tracking-tighter">COVS</div>
+<div class="font-mono font-bold text-primary">A123T</div>
+</div>
+<div class="bg-white p-3 rounded-lg border border-outline-variant shadow-sm">
+<div class="text-[10px] text-on-surface-variant font-label-sm uppercase tracking-tighter">COVR</div>
+<div class="font-mono font-bold text-primary">G44S</div>
+</div>
+<div class="bg-white p-3 rounded-lg border border-outline-variant shadow-sm">
+<div class="text-[10px] text-on-surface-variant font-label-sm uppercase tracking-tighter">ROAA</div>
+<div class="font-mono font-bold text-primary">P291L</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Batch Result View (Mocked Table) -->
+<div class="hidden glass-card rounded-xl flex flex-col h-[640px] shadow-sm overflow-hidden" id="results-batch">
+<div class="p-stack-md border-b border-outline-variant flex justify-between items-center bg-white">
+<h2 class="font-headline-md text-headline-md text-on-surface">Batch Results: BATCH_X92</h2>
+<div class="flex gap-base">
+<span class="inline-flex items-center gap-1 bg-error-container text-on-error-container px-3 py-1 rounded-full text-xs font-bold">12 Flagged</span>
+<span class="inline-flex items-center gap-1 bg-primary-container/20 text-primary px-3 py-1 rounded-full text-xs font-bold">48 Safe</span>
+</div>
+</div>
+<div class="flex-grow overflow-auto">
+<table class="w-full text-left border-collapse">
+<thead class="sticky top-0 bg-white border-b border-outline-variant z-10">
+<tr>
+<th class="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Isolate ID</th>
+<th class="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Status</th>
+<th class="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Key Mutations</th>
+<th class="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-primary/5 transition-colors group">
+<td class="px-6 py-4 font-mono text-sm border-l-4 border-error">SP-2024-001</td>
+<td class="px-6 py-4">
+<span class="flex items-center gap-1 text-error font-bold">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">flag</span>
+                                        Flag
+                                    </span>
+</td>
+<td class="px-6 py-4 text-xs text-on-surface-variant">covS:A123T, covR:G44S...</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:underline text-sm font-label-md font-bold">View Details</button>
+</td>
+</tr>
+<tr class="hover:bg-primary/5 transition-colors">
+<td class="px-6 py-4 font-mono text-sm border-l-4 border-primary">SP-2024-005</td>
+<td class="px-6 py-4">
+<span class="flex items-center gap-1 text-primary font-bold">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                        Safe
+                                    </span>
+</td>
+<td class="px-6 py-4 text-xs text-on-surface-variant">None Detected</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:underline text-sm font-label-md font-bold">View Details</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 border-t border-outline-variant text-center bg-white">
+<button class="text-on-surface-variant text-xs hover:text-primary flex items-center gap-1 mx-auto font-bold transition-colors">
+<span class="material-symbols-outlined text-sm">expand_more</span>
+                        Show more isolates (12 of 60 visible)
+                    </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low/80 border-t border-outline-variant w-full py-stack-md px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-base">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md font-bold text-primary">S. pyogenes Ranker</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">© 2024. Clinical diagnostic use only.</span>
+</div>
+<div class="flex gap-stack-md">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm" href="#">Support</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm" href="#">Documentation</a>
+</div>
+</footer>
+<script>
+    function switchTab(type) {
+        const singleTab = document.getElementById('tab-single');
+        const batchTab = document.getElementById('tab-batch');
+        const singleView = document.getElementById('view-single');
+        const batchView = document.getElementById('view-batch');
+        const resultsPlaceholder = document.getElementById('results-placeholder');
+        const resultsSingle = document.getElementById('results-single');
+        const resultsBatch = document.getElementById('results-batch');
+
+        if (type === 'single') {
+            singleTab.classList.add('tab-active');
+            singleTab.classList.remove('text-on-surface-variant');
+            batchTab.classList.remove('tab-active');
+            batchTab.classList.add('text-on-surface-variant');
+            singleView.classList.remove('hidden');
+            batchView.classList.add('hidden');
+            
+            resultsPlaceholder.classList.add('hidden');
+            resultsSingle.classList.remove('hidden');
+            resultsBatch.classList.add('hidden');
+        } else {
+            batchTab.classList.add('tab-active');
+            batchTab.classList.remove('text-on-surface-variant');
+            singleTab.classList.remove('tab-active');
+            singleTab.classList.add('text-on-surface-variant');
+            batchView.classList.remove('hidden');
+            singleView.classList.add('hidden');
+
+            resultsPlaceholder.classList.add('hidden');
+            resultsSingle.classList.add('hidden');
+            resultsBatch.classList.remove('hidden');
+        }
+    }
+
+    document.querySelector('#view-single button').addEventListener('click', () => {
+        switchTab('single');
+    });
+
+    document.querySelector('#view-batch button').addEventListener('click', () => {
+        switchTab('batch');
+    });
+</script>
+</body></html>

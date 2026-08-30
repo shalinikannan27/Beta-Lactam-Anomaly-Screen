@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Analyze — S. pyogenes Ranker</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet"/>
+<!-- Add jsPDF for report generation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "surface-bright": "#f8f9ff","primary-container": "#14b8a6","primary": "#006b5f",
+        "on-error": "#ffffff","secondary": "#55615f","surface": "#f8f9ff",
+        "primary-fixed-dim": "#4fdbc8","surface-dim": "#cbdbf5","on-surface": "#0b1c30",
+        "primary-fixed": "#71f8e4","on-background": "#0b1c30","surface-container-high": "#dce9ff",
+        "on-secondary": "#ffffff","on-primary": "#ffffff","tertiary": "#9b4426",
+        "surface-tint": "#006b5f","surface-variant": "#d3e4fe","surface-container-low": "#eff4ff",
+        "background": "#f8f9ff","inverse-primary": "#4fdbc8","inverse-on-surface": "#eaf1ff",
+        "error": "#ba1a1a","surface-container-lowest": "#ffffff","secondary-fixed-dim": "#bcc9c6",
+        "secondary-container": "#d8e5e2","outline": "#6c7a77","tertiary-fixed": "#ffdbd0",
+        "surface-container": "#e5eeff","on-surface-variant": "#3c4947","on-error-container": "#93000a",
+        "secondary-fixed": "#d8e5e2","outline-variant": "#bbcac6","surface-container-highest": "#d3e4fe",
+        "error-container": "#ffdad6","on-secondary-container": "#5b6765","on-primary-container": "#00423b",
+        "on-primary-fixed-variant": "#005048"
+      },
+      "borderRadius": {"DEFAULT": "0.25rem","lg": "0.5rem","xl": "0.75rem","full": "9999px"},
+      "spacing": {
+        "gutter": "24px","container-max": "1280px","sm": "8px","md": "16px","lg": "24px",
+        "base": "4px","xs": "4px","xl": "40px","stack-sm": "12px","stack-md": "24px",
+        "stack-lg": "48px","margin-desktop": "40px"
+      },
+      "fontFamily": {
+        "headline-lg": ["Manrope"],"label-sm": ["JetBrains Mono"],"display-lg": ["Manrope"],
+        "label-md": ["JetBrains Mono"],"body-sm": ["Inter"],"body-lg": ["Inter"],"body-md": ["Inter"],
+        "headline-md": ["Manrope"]
+      },
+      "fontSize": {
+        "headline-lg": ["32px",{"lineHeight":"40px","letterSpacing":"-0.01em","fontWeight":"700"}],
+        "label-sm": ["12px",{"lineHeight":"16px","letterSpacing":"0.05em","fontWeight":"500"}],
+        "display-lg": ["48px",{"lineHeight":"56px","letterSpacing":"-0.02em","fontWeight":"800"}],
+        "label-md": ["14px",{"lineHeight":"20px","letterSpacing":"0.02em","fontWeight":"500"}],
+        "body-sm": ["14px",{"lineHeight":"20px","fontWeight":"400"}],
+        "body-lg": ["18px",{"lineHeight":"28px","fontWeight":"400"}],
+        "body-md": ["16px",{"lineHeight":"24px","fontWeight":"400"}],
+        "headline-md": ["24px",{"lineHeight":"32px","fontWeight":"600"}]
+      }
+    }
+  }
+}
+</script>
+<style>
+  .tab-active { color: #006b5f; border-bottom: 2px solid #006b5f; }
+  .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.5); }
+  
+  /* Loading Spinner */
+  .spinner { border: 4px solid rgba(0, 107, 95, 0.2); border-left-color: #006b5f; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+  @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+</style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col" style="background-image: linear-gradient(rgba(248, 249, 255, 0.85), rgba(248, 249, 255, 0.85)), url('https://lh3.googleusercontent.com/aida/AP1WRLvH9QJY3F6gktkSGGo6So2rXN2Uo6qgEJTfNdynslDBq1xUBsqqRcVM-o4iZyeDZLB-A6UkDs591mpld1qkTNBFLAInthTemwAM1fGoAybkiCPrGmzw00W9wwOecsC5ZbU5XgIO1aL2oKaI5ujN0Ht8ums0RM5QRhdEpI2ON-RKRat3jqQ40_I9Ox6nXiDmg0nVtKbU2Zeu3ED79-7UIHhbcxUh9HmPed-4yFBHrCwvcHCjH9QXpF173g'); background-size: cover; background-attachment: fixed; background-position: center center;">
+
+<div id="health-banner" class="hidden bg-error text-white text-center py-2 font-label-md">
+  ⚠️ Cannot connect to the backend server. Ensure the FastAPI server is running. (<span id="health-banner-url"></span>)
+</div>
+
+<nav class="bg-surface-container-lowest/90 backdrop-blur-md border-b border-outline-variant flex justify-between items-center px-margin-desktop h-20 w-full max-w-container-max mx-auto sticky top-0 z-50">
+  <div class="flex items-center gap-base">
+    <span class="text-headline-md font-headline-md font-bold text-primary">S. pyogenes Ranker</span>
+  </div>
+  <div class="hidden md:flex items-center gap-stack-lg">
+    <a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="index.html">Home</a>
+    <a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="how-it-works.html">How it Works</a>
+    <a class="text-primary border-b-2 border-primary pb-1 font-label-md text-label-md" href="analyze.html">Ranker</a>
+  </div>
+  <div class="flex items-center gap-stack-sm">
+    <span class="material-symbols-outlined text-primary text-2xl cursor-pointer hover:bg-primary/10 p-2 rounded-full transition-all">account_circle</span>
+  </div>
+</nav>
+
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-desktop py-stack-lg">
+  <header class="mb-stack-lg">
+    <h1 class="font-headline-lg text-headline-lg text-on-surface">Clinical Analysis Engine</h1>
+    <p class="text-on-surface-variant font-body-md mt-base">Input molecular data to assess strain virulence risk. System optimized for diagnostic precision.</p>
+  </header>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+    <!-- Left Column: Input Form -->
+    <div class="lg:col-span-5 space-y-gutter">
+      <div class="glass-card rounded-xl p-stack-md shadow-sm">
+        <!-- Tabs -->
+        <div class="flex border-b border-outline-variant mb-stack-md">
+          <button class="px-6 py-3 font-label-md text-label-md tab-active transition-all" id="tab-single">Single Isolate</button>
+          <button class="px-6 py-3 font-label-md text-label-md text-on-surface-variant hover:text-primary transition-all" id="tab-batch">Batch Processing</button>
+        </div>
+
+        <!-- Single Input View -->
+        <div class="space-y-stack-md" id="view-single">
+          <div class="space-y-base">
+            <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Isolate Identifier (Optional)</label>
+            <input id="input-isolate-id" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary-container focus:border-primary-container outline-none transition-all" placeholder="e.g. SP-2024-001" type="text"/>
+          </div>
+          <div class="space-y-base">
+            <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">pbp2x Protein Sequence</label>
+            <textarea id="input-sequence" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary-container focus:border-primary-container outline-none transition-all font-mono text-sm" placeholder="Paste pbp2x protein sequence..." rows="6"></textarea>
+          </div>
+          <button id="btn-run-single" class="w-full bg-primary text-on-primary py-4 rounded-xl font-label-md text-label-md shadow-md hover:brightness-110 hover:shadow-lg active:scale-[0.98] transition-all flex justify-center items-center gap-2">
+            <span class="material-symbols-outlined">analytics</span>
+            Run Analysis
+          </button>
+        </div>
+
+        <!-- Batch Input View -->
+        <div class="hidden space-y-stack-md" id="view-batch">
+          <div id="batch-dropzone" class="border-2 border-dashed border-primary/30 rounded-xl p-stack-lg text-center bg-primary/5 hover:bg-primary/10 transition-colors cursor-pointer group">
+            <span class="material-symbols-outlined text-4xl text-primary/60 mb-base group-hover:text-primary transition-colors">upload_file</span>
+            <p class="font-label-md text-label-md text-on-surface-variant">Drop CSV, TXT, or FASTA file here</p>
+            <p class="text-xs text-outline mt-1">Maximum 500 isolates per batch</p>
+            <input class="hidden" id="batch-upload" type="file" accept=".csv,.txt,.fasta,.fas"/>
+          </div>
+          
+          <div id="batch-textarea-section" class="space-y-base hidden">
+            <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Batch Input Content</label>
+            <textarea id="batch-textarea" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary-container focus:border-primary-container outline-none transition-all font-mono text-xs whitespace-pre" placeholder="e.g. SP-01, M... \nOr standard FASTA..." rows="4"></textarea>
+          </div>
+
+          <div class="flex items-center gap-base p-4 bg-surface-container-low border border-outline-variant rounded-lg">
+            <span class="material-symbols-outlined text-primary">info</span>
+            <p class="text-xs text-on-surface-variant">Expected format: IsolateID,Sequence per line or standard FASTA format.</p>
+          </div>
+          <button id="btn-run-batch" class="w-full bg-secondary text-on-secondary py-4 rounded-xl font-label-md text-label-md shadow-md hover:brightness-110 active:scale-[0.98] transition-all flex justify-center items-center gap-2">
+            <span class="material-symbols-outlined">batch_prediction</span>
+            Queue Batch Job
+          </button>
+        </div>
+      </div>
+
+      <!-- Guidance Card -->
+      <div class="bg-primary-container/10 border border-primary-container/30 rounded-xl p-stack-md">
+        <h3 class="font-label-md text-label-md text-primary mb-2 flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm" data-original-icon="shield_health">verified_user</span>
+          Clinical Interpretation Guide
+        </h3>
+        <ul class="space-y-2 text-sm text-on-surface-variant">
+          <li class="flex gap-2"><span class="text-error font-bold">Flagged:</span> Anomaly detected — mutation profile associated with reduced β-lactam susceptibility.</li>
+          <li class="flex gap-2"><span class="text-primary font-bold">Safe:</span> Isolate aligns with wild-type consensus; no high-risk hotspot markers detected.</li>
+          <li class="flex gap-2"><span class="text-secondary font-bold text-xs mt-1">Rejected:</span> Sequence identity &lt; 90% to reference or coverage &lt; 95% — not a valid S. pyogenes pbp2x input.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right Column: Results Area -->
+    <div class="lg:col-span-7">
+      
+      <!-- Placeholder View -->
+      <div id="results-placeholder" class="h-full flex flex-col items-center justify-center text-center p-stack-lg glass-card rounded-xl border-dashed border-2 border-outline-variant">
+        <span class="material-symbols-outlined text-6xl text-primary/30 mb-stack-md">query_stats</span>
+        <h2 class="font-headline-md text-headline-md text-on-surface-variant">Awaiting Analysis</h2>
+        <p class="text-on-surface-variant max-w-sm mt-base">Submit an isolate or batch on the left to see the clinical diagnostic risk assessment and mutation breakdown.</p>
+      </div>
+
+      <!-- Loading View -->
+      <div id="results-loading" class="hidden h-full flex flex-col items-center justify-center text-center p-stack-lg glass-card rounded-xl border-dashed border-2 border-outline-variant">
+        <div class="spinner mb-stack-md"></div>
+        <h2 class="font-headline-md text-headline-md text-on-surface-variant">Processing Sequence(s)</h2>
+        <p class="text-on-surface-variant max-w-sm mt-base">Aligning sequence to wild-type and evaluating hotspot mutations through the Isolation Forest anomaly detector...</p>
+      </div>
+
+      <!-- Error View -->
+      <div id="results-error" class="hidden h-full flex flex-col items-center justify-center text-center p-stack-lg glass-card rounded-xl border-dashed border-2 border-error/50 bg-error-container/20">
+        <span class="material-symbols-outlined text-6xl text-error mb-stack-md">error</span>
+        <h2 class="font-headline-md text-headline-md text-error">Analysis Error</h2>
+        <p id="error-message" class="text-on-surface-variant max-w-sm mt-base">An error occurred.</p>
+      </div>
+      
+      <!-- Low Confidence View -->
+      <div id="results-low-confidence" class="hidden h-full flex flex-col items-center justify-center text-center p-stack-lg glass-card rounded-xl border-dashed border-2 border-secondary/50 bg-surface-container-high">
+        <span class="material-symbols-outlined text-6xl text-secondary mb-stack-md">help</span>
+        <h2 class="font-headline-md text-headline-md text-secondary">Low Confidence Result</h2>
+        <p id="low-confidence-reason" class="text-on-surface-variant max-w-lg mt-base">The sequence provided could not be reliably classified.</p>
+      </div>
+
+      <!-- Single Result View -->
+      <div id="results-single" class="hidden space-y-gutter">
+        <div class="glass-card rounded-xl overflow-hidden shadow-sm">
+          <div id="result-header" class="p-stack-md bg-error-container/30 flex justify-between items-center border-b border-outline-variant">
+            <div>
+              <span id="result-label" class="font-label-sm text-label-sm text-error uppercase tracking-wider font-bold">Classification Status</span>
+              <div class="flex items-center gap-2 mt-1">
+                <span id="result-icon" class="material-symbols-outlined text-error text-3xl" style="font-variation-settings: 'FILL' 1;">flag</span>
+                <h2 id="result-title" class="font-headline-md text-headline-md text-error">Flagged for Follow-up</h2>
+              </div>
+            </div>
+            <button id="btn-download-pdf" class="bg-white text-on-surface border border-outline-variant px-4 py-2 rounded-lg font-label-md text-label-md flex items-center gap-2 hover:bg-surface-container-low transition-all">
+              <span class="material-symbols-outlined">picture_as_pdf</span>
+              Download PDF Report
+            </button>
+          </div>
+          <div class="p-stack-md space-y-stack-md">
+            
+            <!-- Probability row intentionally removed: Isolation Forest does not expose a probability score -->
+            <div id="result-prob-row" class="hidden"></div>
+
+            <div>
+              <h3 class="font-label-md text-label-md text-on-surface-variant mb-base uppercase">Determinative Reasoning</h3>
+              <p id="result-reason" class="text-on-surface font-body-md leading-relaxed"></p>
+            </div>
+            <hr class="border-outline-variant"/>
+            <div id="result-mutations-section">
+              <h3 class="font-label-md text-label-md text-on-surface-variant mb-base uppercase">Mutated Hotspot Positions</h3>
+              <div id="result-mutations" class="flex flex-col gap-3">
+                <!-- Injected via ui.js -->
+              </div>
+            </div>
+            
+            <div class="bg-surface-container-high p-4 rounded-lg mt-4 border border-outline-variant">
+              <p id="result-note" class="text-xs text-on-surface-variant italic"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Batch Result View -->
+      <div id="results-batch" class="hidden glass-card rounded-xl flex flex-col h-[640px] shadow-sm overflow-hidden">
+        <div class="p-stack-md border-b border-outline-variant flex justify-between items-center bg-white flex-wrap gap-2">
+          <h2 class="font-headline-md text-headline-md text-on-surface">Batch Results</h2>
+          <div class="flex gap-base flex-wrap items-center">
+            <span id="batch-flagged-count" class="inline-flex items-center gap-1 bg-error-container text-on-error-container px-3 py-1 rounded-full text-xs font-bold">0 Flagged</span>
+            <span id="batch-safe-count" class="inline-flex items-center gap-1 bg-primary-container/20 text-primary px-3 py-1 rounded-full text-xs font-bold">0 Safe</span>
+            <span id="batch-rejected-count" class="hidden inline-flex items-center gap-1 bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-xs font-bold">0 Rejected</span>
+            <button id="btn-download-csv" class="inline-flex items-center gap-1 bg-white border border-outline-variant text-on-surface px-3 py-1 rounded-lg text-xs font-label-md hover:bg-surface-container-low transition-all">
+              <span class="material-symbols-outlined text-sm">download</span> Export CSV
+            </button>
+          </div>
+        </div>
+        <div class="flex-grow overflow-auto relative">
+          <table class="w-full text-left border-collapse">
+            <thead class="sticky top-0 bg-white border-b border-outline-variant z-10 shadow-sm">
+              <tr>
+                <th class="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest bg-white">Isolate ID</th>
+                <th class="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest bg-white">Status</th>
+                <th class="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest bg-white">Substitutions / Notes</th>
+              </tr>
+            </thead>
+            <tbody id="batch-tbody" class="divide-y divide-outline-variant">
+              <!-- Injected via ui.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="bg-surface-container-low/80 border-t border-outline-variant w-full py-stack-md px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-base mt-auto">
+  <div class="flex items-center gap-4">
+    <span class="font-headline-md text-headline-md font-bold text-primary">S. pyogenes Ranker</span>
+    <span class="font-label-sm text-label-sm text-on-surface-variant">© 2026. Clinical diagnostic use only.</span>
+  </div>
+  <div class="flex gap-stack-md">
+    <a class="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm" href="#">Privacy Policy</a>
+    <a class="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm" href="#">Terms of Service</a>
+  </div>
+</footer>
+
+<!-- Configuration & Scripts -->
+<script src="config.js"></script>
+<script>
+  // Populate health banner URL dynamically from config
+  document.addEventListener("DOMContentLoaded", () => {
+    const el = document.getElementById("health-banner-url");
+    if (el && typeof CONFIG !== "undefined") el.textContent = CONFIG.API_BASE_URL;
+  });
+</script>
+<script src="js/api.js"></script>
+<script src="js/pdf.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/app.js"></script>
+
+</body></html>

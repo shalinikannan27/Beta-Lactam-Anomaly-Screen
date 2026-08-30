@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>S. pyogenes Ranker — Clinical Surveillance Platform</title>
+<meta name="description" content="Identify pbp2x gene mutations in GAS isolates to support clinical surveillance for pharyngitis and tonsillitis."/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "surface-bright": "#f8f9ff","primary-container": "#14b8a6","primary": "#006b5f",
+        "on-error": "#ffffff","secondary": "#55615f","surface": "#f8f9ff",
+        "primary-fixed-dim": "#4fdbc8","surface-dim": "#cbdbf5","on-surface": "#0b1c30",
+        "primary-fixed": "#71f8e4","on-background": "#0b1c30","surface-container-high": "#dce9ff",
+        "on-secondary": "#ffffff","on-primary": "#ffffff","tertiary": "#9b4426",
+        "surface-tint": "#006b5f","surface-variant": "#d3e4fe","surface-container-low": "#eff4ff",
+        "background": "#f8f9ff","inverse-primary": "#4fdbc8","inverse-on-surface": "#eaf1ff",
+        "error": "#ba1a1a","surface-container-lowest": "#ffffff","secondary-fixed-dim": "#bcc9c6",
+        "secondary-container": "#d8e5e2","outline": "#6c7a77","tertiary-fixed": "#ffdbd0",
+        "surface-container": "#e5eeff","on-surface-variant": "#3c4947","on-error-container": "#93000a",
+        "secondary-fixed": "#d8e5e2","outline-variant": "#bbcac6","surface-container-highest": "#d3e4fe",
+        "error-container": "#ffdad6","on-secondary-container": "#5b6765","on-primary-container": "#00423b",
+        "on-primary-fixed-variant": "#005048","inverse-surface": "#213145"
+      },
+      "borderRadius": {"DEFAULT": "0.25rem","lg": "0.5rem","xl": "0.75rem","full": "9999px"},
+      "spacing": {
+        "gutter": "24px","container-max": "1280px","sm": "8px","md": "16px","lg": "24px",
+        "base": "4px","xs": "4px","xl": "40px","stack-sm": "12px","stack-md": "24px",
+        "stack-lg": "48px","margin-desktop": "40px"
+      },
+      "fontFamily": {
+        "headline-lg": ["Manrope"],"label-sm": ["JetBrains Mono"],"display-lg": ["Manrope"],
+        "label-md": ["JetBrains Mono"],"body-sm": ["Inter"],"body-lg": ["Inter"],"body-md": ["Inter"],
+        "headline-md": ["Manrope"]
+      },
+      "fontSize": {
+        "headline-lg": ["32px",{"lineHeight":"40px","letterSpacing":"-0.01em","fontWeight":"700"}],
+        "label-sm": ["12px",{"lineHeight":"16px","letterSpacing":"0.05em","fontWeight":"500"}],
+        "display-lg": ["48px",{"lineHeight":"56px","letterSpacing":"-0.02em","fontWeight":"800"}],
+        "label-md": ["14px",{"lineHeight":"20px","letterSpacing":"0.02em","fontWeight":"500"}],
+        "body-sm": ["14px",{"lineHeight":"20px","fontWeight":"400"}],
+        "body-lg": ["18px",{"lineHeight":"28px","fontWeight":"400"}],
+        "body-md": ["16px",{"lineHeight":"24px","fontWeight":"400"}],
+        "headline-md": ["24px",{"lineHeight":"32px","fontWeight":"600"}]
+      }
+    }
+  }
+}
+</script>
+<style>
+  .hero-gradient-overlay { background: linear-gradient(180deg, rgba(248,249,255,0.4) 0%, rgba(248,249,255,0.9) 100%); }
+  .bento-item { background: rgba(255,255,255,0.7); backdrop-filter: blur(12px); border: 1px solid rgba(187,202,198,0.3); transition: all 0.3s ease; }
+  .bento-item:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -10px rgba(0,107,95,0.1); border-color: rgba(0,107,95,0.2); }
+  .active-dot::after { content:''; position:absolute; bottom:-4px; left:50%; transform:translateX(-50%); width:4px; height:4px; border-radius:50%; background-color:currentColor; }
+</style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden selection:bg-primary-fixed selection:text-on-primary-fixed">
+<header class="bg-surface-container-lowest/80 backdrop-blur-md fixed top-0 left-0 right-0 z-50 border-b border-outline-variant">
+  <nav class="flex justify-between items-center px-lg h-20 w-full max-w-container-max mx-auto">
+    <div class="flex items-center gap-2">
+      <span class="text-headline-md font-headline-md font-bold text-primary tracking-tight">S. pyogenes Ranker</span>
+    </div>
+    <div class="hidden md:flex items-center gap-8">
+      <a class="text-primary font-label-md text-label-md relative" href="index.html">Home<span class="active-dot"></span></a>
+      <a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors" href="how-it-works.html">How it Works</a>
+      <a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors" href="analyze.html">Analyze</a>
+    </div>
+    <div class="flex items-center gap-4">
+      <a href="analyze.html" class="bg-primary hover:bg-primary-container text-white px-6 py-2.5 rounded-lg font-label-md text-label-md transition-all active:scale-95 duration-150 shadow-sm">Launch Tool</a>
+    </div>
+  </nav>
+</header>
+<main class="pt-20">
+  <section class="relative min-h-[75vh] flex items-center justify-center overflow-hidden px-md md:px-xl py-xl">
+    <div class="absolute inset-0 z-0">
+      <div class="absolute inset-0 bg-cover bg-center opacity-70 scale-105" style="background-image: url('https://lh3.googleusercontent.com/aida/AP1WRLvH9QJY3F6gktkSGGo6So2rXN2Uo6qgEJTfNdynslDBq1xUBsqqRcVM-o4iZyeDZLB-A6UkDs591mpld1qkTNBFLAInthTemwAM1fGoAybkiCPrGmzw00W9wwOecsC5ZbU5XgIO1aL2oKaI5ujN0Ht8ums0RM5QRhdEpI2ON-RKRat3jqQ40_I9Ox6nXiDmg0nVtKbU2Zeu3ED79-7UIHhbcxUh9HmPed-4yFBHrCwvcHCjH9QXpF173g');"></div>
+      <div class="absolute inset-0 hero-gradient-overlay"></div>
+    </div>
+    <div class="relative z-10 max-w-container-max w-full mx-auto flex flex-col items-center text-center">
+      <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-primary-fixed/20 text-primary mb-lg border border-primary/10">
+        <span class="material-symbols-outlined text-[18px]">verified_user</span>
+        <span class="font-label-sm text-label-sm uppercase tracking-wider">Clinical Surveillance Platform</span>
+      </div>
+      <h1 class="font-display-lg text-display-lg max-w-4xl text-on-surface mb-md leading-tight">
+        Screening <span class="italic font-normal">Streptococcus pyogenes</span> for emerging reduced β-lactam susceptibility risk.
+      </h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mb-xl">
+        Identify <span class="font-semibold text-primary">pbp2x</span> gene mutations in GAS isolates to support clinical surveillance for pharyngitis and tonsillitis.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <a class="bg-primary text-white font-label-md text-label-md px-10 py-4 rounded-xl flex items-center gap-2 shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all hover:translate-y-[-2px] active:scale-95" href="analyze.html">
+          Analyze a Sequence
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
+        <a href="how-it-works.html" class="bg-white/80 backdrop-blur-sm border border-outline-variant text-on-surface font-label-md text-label-md px-10 py-4 rounded-xl hover:bg-surface-container-low transition-all">
+          How It Works
+        </a>
+      </div>
+    </div>
+  </section>
+  <section class="py-xl px-md md:px-xl max-w-container-max mx-auto">
+    <div class="grid grid-cols-12 gap-6">
+      <div class="col-span-12 md:col-span-8 bento-item p-10 rounded-2xl flex flex-col justify-between shadow-sm">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <span class="material-symbols-outlined text-primary-container">biotech</span>
+            <h2 class="font-headline-md text-headline-md text-on-surface">The Clinical Context</h2>
+          </div>
+          <div class="h-[1px] w-full bg-outline-variant/30 mb-8"></div>
+          <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+            Historically, <span class="italic">S. pyogenes</span> (Group A Streptococcus) has remained remarkably susceptible to penicillin and other β-lactam antibiotics. However, the global landscape is shifting.<br/><br/>
+            Emerging genomic data reveals that specific <span class="font-semibold text-primary">pbp2x</span> mutations are being detected in clinical isolates worldwide. These mutations represent a pre-resistance state that could potentially compromise the efficacy of standard first-line treatments.
+          </p>
+        </div>
+        <div class="mt-8 flex gap-4">
+          <div class="flex flex-col">
+            <span class="text-display-lg font-display-lg text-primary-container leading-none">99%</span>
+            <span class="text-label-sm text-on-surface-variant uppercase tracking-tighter">Historical Susceptibility</span>
+          </div>
+          <div class="w-[1px] bg-outline-variant mx-6"></div>
+          <div class="flex flex-col">
+            <span class="text-display-lg font-display-lg text-secondary leading-none">20+</span>
+            <span class="text-label-sm text-on-surface-variant uppercase tracking-tighter">New pbp2x Alleles identified</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-span-12 md:col-span-4 bento-item p-10 rounded-2xl bg-surface-container-low/50 border-primary/10 shadow-sm">
+        <div class="flex items-center gap-2 mb-4">
+          <span class="material-symbols-outlined text-primary-container">query_stats</span>
+          <h2 class="font-headline-md text-headline-md text-on-surface">Targeted Surveillance</h2>
+        </div>
+        <p class="font-body-md text-body-md text-on-surface-variant mb-6">
+          Proactive monitoring is the only way to detect the rise of non-susceptible strains before they become a widespread public health crisis.
+        </p>
+        <ul class="space-y-4">
+          <li class="flex items-start gap-3"><span class="material-symbols-outlined text-primary-container text-[20px] mt-0.5">check_circle</span><span class="font-label-md text-label-md text-on-surface">Focus on Strep Throat isolates</span></li>
+          <li class="flex items-start gap-3"><span class="material-symbols-outlined text-primary-container text-[20px] mt-0.5">check_circle</span><span class="font-label-md text-label-md text-on-surface">High-resolution genomic screening</span></li>
+          <li class="flex items-start gap-3"><span class="material-symbols-outlined text-primary-container text-[20px] mt-0.5">check_circle</span><span class="font-label-md text-label-md text-on-surface">Early detection of phenotypic drift</span></li>
+        </ul>
+      </div>
+      <div class="col-span-12 bento-item rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 border-dashed border-primary/20">
+        <div class="flex items-center gap-6">
+          <div class="w-16 h-16 rounded-full bg-primary-fixed/30 flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-primary text-3xl">upload_file</span>
+          </div>
+          <div>
+            <h3 class="font-headline-md text-headline-md text-on-surface">Ready for analysis?</h3>
+            <p class="text-on-surface-variant font-body-md">Paste a pbp2x protein sequence to begin the screening process.</p>
+          </div>
+        </div>
+        <a class="bg-primary hover:bg-primary-container text-white px-8 py-4 rounded-xl font-label-md text-label-md transition-all active:scale-95 shrink-0 shadow-md" href="analyze.html">Begin Analysis Flow</a>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="bg-surface-container-low border-t border-outline-variant mt-xl">
+  <div class="w-full py-xl px-xl flex flex-col md:flex-row justify-between items-center gap-md max-w-container-max mx-auto">
+    <div class="flex flex-col md:flex-row items-center gap-4">
+      <span class="font-headline-md text-headline-md font-bold text-primary">S. pyogenes Ranker</span>
+      <span class="hidden md:block text-outline-variant">|</span>
+      <span class="text-on-surface-variant font-label-sm text-label-sm uppercase tracking-widest">© 2026 Clinical diagnostic use only.</span>
+    </div>
+    <div class="flex gap-8">
+      <a class="text-on-surface-variant font-label-sm text-label-sm hover:text-primary transition-colors" href="#">Privacy Policy</a>
+      <a class="text-on-surface-variant font-label-sm text-label-sm hover:text-primary transition-colors" href="#">Terms of Service</a>
+      <a class="text-on-surface-variant font-label-sm text-label-sm hover:text-primary transition-colors" href="#">Support</a>
+    </div>
+  </div>
+</footer>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('opacity-100','translate-y-0');
+          entry.target.classList.remove('opacity-0','translate-y-8');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    document.querySelectorAll('.bento-item').forEach(el => {
+      el.classList.add('opacity-0','translate-y-8','transition-all','duration-700','ease-out');
+      observer.observe(el);
+    });
+  });
+</script>
+</body></html>
