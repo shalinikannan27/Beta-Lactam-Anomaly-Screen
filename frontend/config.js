@@ -1,5 +1,5 @@
 /**
- * S. pyogenes Ranker — Frontend Configuration
+ * \u03b2LAS — Frontend Configuration
  * Change API_BASE_URL here to point to a different backend (e.g. deployed server).
  */
 const CONFIG = {

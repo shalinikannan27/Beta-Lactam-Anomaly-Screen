@@ -17,7 +17,7 @@ function downloadPDF(isolateId, result) {
   doc.setFont("helvetica", "bold");
   doc.setFontSize(11);
   doc.setTextColor(255, 255, 255);
-  doc.text("S. pyogenes Ranker — Clinical Surveillance Report", margin, 9.5);
+  doc.text("βLAS — PBP2x Susceptibility Screening Report", margin, 9.5);
 
   // ── Title ──
   y = 28;
@@ -58,7 +58,7 @@ function downloadPDF(isolateId, result) {
 
   const status = result.status || "unknown";
   let fillColor, label;
-  if (status === "flagged")  { fillColor = [186, 26, 26];  label = "FLAGGED — Elevated Risk"; }
+  if (status === "flagged")  { fillColor = [186, 26, 26];  label = "FLAGGED — Potential Resistance"; }
   else if (status === "safe") { fillColor = [0, 107, 95];   label = "SAFE — No High-Risk Markers"; }
   else                        { fillColor = [85, 97, 95];   label = "REJECTED — Sequence Quality Safeguard"; }
 
