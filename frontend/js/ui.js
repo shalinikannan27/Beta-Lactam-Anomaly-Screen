@@ -81,7 +81,7 @@ function showSingleResult(isolateId, result) {
     : "material-symbols-outlined text-primary text-3xl";
   iconEl.style.fontVariationSettings = "'FILL' 1";
 
-  titleEl.textContent = isFlagged ? "Flagged for Follow-up" : "Strain Cleared — Safe";
+  titleEl.textContent = isFlagged ? "Flagged: Potential Resistance" : "Strain Cleared — Safe";
   titleEl.className   = isFlagged
     ? "font-headline-md text-headline-md text-error"
     : "font-headline-md text-headline-md text-primary";
@@ -92,7 +92,7 @@ function showSingleResult(isolateId, result) {
   // Reasoning — join all reason strings
   const reasonText = (result.reasons || []).join(" ");
   setText("result-reason", reasonText);
-  setText("result-note", ""); // note is embedded in reasons; keep element clean
+  // note is embedded in reasons; keep element clean
 
   // Mutations section
   const container = document.getElementById("result-mutations");
@@ -115,8 +115,8 @@ function showSingleResult(isolateId, result) {
             <span class="font-mono font-bold text-lg text-primary">${mut.substitution}</span>
             <span class="text-[10px] px-2 py-0.5 rounded-full border font-label-sm uppercase tracking-wide ${typeBadgeColor}">${typeLabel}</span>
           </div>
-          <div class="text-xs text-on-surface-variant">Position <strong>${mut.position}</strong></div>
-          ${mut.explanation ? `<p class="text-xs text-on-surface leading-relaxed mt-1">${mut.explanation}</p>` : ""}
+          <div class="text-sm text-on-surface-variant">Position <strong>${mut.position}</strong></div>
+          ${mut.explanation ? `<p class="text-sm text-on-surface leading-relaxed mt-1">${mut.explanation}</p>` : ""}
         </div>`;
     });
     show("result-mutations-section");

@@ -2,7 +2,7 @@
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Analyze — S. pyogenes Ranker</title>
+<title>Analyze — βLAS</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet"/>
 <!-- Add jsPDF for report generation -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -70,7 +70,7 @@ tailwind.config = {
 
 <nav class="bg-surface-container-lowest/90 backdrop-blur-md border-b border-outline-variant flex justify-between items-center px-margin-desktop h-20 w-full max-w-container-max mx-auto sticky top-0 z-50">
   <div class="flex items-center gap-base">
-    <span class="text-headline-md font-headline-md font-bold text-primary">S. pyogenes Ranker</span>
+    <span class="text-headline-md font-headline-md font-bold text-primary">βLAS</span>
   </div>
   <div class="hidden md:flex items-center gap-stack-lg">
     <a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="index.html">Home</a>
@@ -192,7 +192,7 @@ tailwind.config = {
               <span id="result-label" class="font-label-sm text-label-sm text-error uppercase tracking-wider font-bold">Classification Status</span>
               <div class="flex items-center gap-2 mt-1">
                 <span id="result-icon" class="material-symbols-outlined text-error text-3xl" style="font-variation-settings: 'FILL' 1;">flag</span>
-                <h2 id="result-title" class="font-headline-md text-headline-md text-error">Flagged for Follow-up</h2>
+                <h2 id="result-title" class="font-headline-md text-headline-md text-error">Flagged: Potential Resistance</h2>
               </div>
             </div>
             <button id="btn-download-pdf" class="bg-white text-on-surface border border-outline-variant px-4 py-2 rounded-lg font-label-md text-label-md flex items-center gap-2 hover:bg-surface-container-low transition-all">
@@ -217,9 +217,7 @@ tailwind.config = {
               </div>
             </div>
             
-            <div class="bg-surface-container-high p-4 rounded-lg mt-4 border border-outline-variant">
-              <p id="result-note" class="text-xs text-on-surface-variant italic"></p>
-            </div>
+            
           </div>
         </div>
       </div>
@@ -258,7 +256,7 @@ tailwind.config = {
 
 <footer class="bg-surface-container-low/80 border-t border-outline-variant w-full py-stack-md px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-base mt-auto">
   <div class="flex items-center gap-4">
-    <span class="font-headline-md text-headline-md font-bold text-primary">S. pyogenes Ranker</span>
+    <span class="font-headline-md text-headline-md font-bold text-primary">βLAS</span>
     <span class="font-label-sm text-label-sm text-on-surface-variant">© 2026. Clinical diagnostic use only.</span>
   </div>
   <div class="flex gap-stack-md">
